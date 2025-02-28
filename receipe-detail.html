@@ -1,0 +1,779 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Real Food Rating - Recipe Detail</title>
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+    }
+
+    body {
+      background-color: #f7f7f7;
+      color: #333;
+      max-width: 480px;
+      margin: 0 auto;
+      position: relative;
+      min-height: 100vh;
+      padding-bottom: 70px;
+    }
+
+    .status-bar {
+      height: 24px;
+      background-color: white;
+      width: 100%;
+    }
+
+    .hero-image {
+      height: 288px;
+      background-color: #e0e0e0;
+      position: relative;
+    }
+
+    .navigation {
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      padding: 16px;
+      display: flex;
+      justify-content: space-between;
+    }
+
+    .nav-button {
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      background-color: rgba(255, 255, 255, 0.9);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #333;
+    }
+
+    .action-buttons {
+      display: flex;
+      gap: 12px;
+    }
+
+    .rating-badge {
+      position: absolute;
+      top: 48px;
+      right: 16px;
+      background-color: #4CAF50;
+      color: white;
+      padding: 6px 12px;
+      border-radius: 4px;
+      font-size: 14px;
+      font-weight: bold;
+      display: flex;
+      align-items: center;
+    }
+
+    .recipe-info {
+      background-color: white;
+      border-top-left-radius: 24px;
+      border-top-right-radius: 24px;
+      margin-top: -32px;
+      position: relative;
+      padding: 24px 16px 16px;
+    }
+
+    .recipe-title {
+      font-size: 24px;
+      font-weight: bold;
+      color: #333;
+      margin-bottom: 8px;
+    }
+
+    .recipe-description {
+      color: #666;
+      margin-bottom: 16px;
+    }
+
+    .meta-tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+      margin-top: 16px;
+    }
+
+    .meta-tag {
+      display: flex;
+      align-items: center;
+      background-color: #f0f0f0;
+      padding: 6px 12px;
+      border-radius: 20px;
+      font-size: 14px;
+    }
+
+    .tag-icon {
+      margin-right: 6px;
+    }
+
+    .dietary-tag {
+      padding: 6px 12px;
+      border-radius: 20px;
+      font-size: 14px;
+    }
+
+    .tag-green {
+      background-color: #E8F5E9;
+      color: #1B5E20;
+    }
+
+    .tag-purple {
+      background-color: #F3E5F5;
+      color: #6A1B9A;
+    }
+
+    .servings-adjuster {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      background-color: #f5f5f5;
+      padding: 12px;
+      border-radius: 12px;
+      margin-top: 24px;
+    }
+
+    .servings-label {
+      font-weight: 500;
+      color: #333;
+    }
+
+    .adjuster-controls {
+      display: flex;
+      align-items: center;
+    }
+
+    .adjuster-button {
+      width: 32px;
+      height: 32px;
+      border-radius: 50%;
+      background-color: white;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: bold;
+      color: #555;
+      box-shadow: 0 1px 2px rgba(0,0,0,0.1);
+      cursor: pointer;
+    }
+
+    .servings-count {
+      margin: 0 16px;
+      font-size: 18px;
+      font-weight: bold;
+    }
+
+    .nutrition-section {
+      background-color: white;
+      padding: 20px 16px;
+      border-top: 1px solid #eee;
+      border-bottom: 1px solid #eee;
+    }
+
+    .section-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 12px;
+    }
+
+    .section-title {
+      font-weight: bold;
+      color: #333;
+    }
+
+    .view-all {
+      color: #4CAF50;
+      font-size: 14px;
+    }
+
+    .nutrition-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 8px;
+      text-align: center;
+    }
+
+    .nutrition-item {
+      display: flex;
+      flex-direction: column;
+    }
+
+    .nutrition-value {
+      font-size: 18px;
+      font-weight: bold;
+    }
+
+    .nutrition-label {
+      font-size: 12px;
+      color: #666;
+    }
+
+    .key-nutrients {
+      text-align: center;
+      margin-top: 12px;
+      font-size: 12px;
+      color: #666;
+    }
+
+    .tab-navigation {
+      display: flex;
+      border-bottom: 1px solid #eee;
+      background-color: white;
+    }
+
+    .tab {
+      flex: 1;
+      padding: 12px 16px;
+      text-align: center;
+      font-weight: 500;
+    }
+
+    .tab.active {
+      color: #4CAF50;
+      border-bottom: 2px solid #4CAF50;
+    }
+
+    .tab:not(.active) {
+      color: #666;
+    }
+
+    .tab-content {
+      background-color: white;
+      padding: 16px;
+    }
+
+    .ingredients-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 16px;
+    }
+
+    .add-all-button {
+      display: flex;
+      align-items: center;
+      color: #4CAF50;
+      font-size: 14px;
+      font-weight: 500;
+    }
+
+    .ingredient-group {
+      margin-bottom: 16px;
+    }
+
+    .group-title {
+      font-weight: 500;
+      color: #333;
+      margin-bottom: 8px;
+    }
+
+    .ingredient-list {
+      list-style-type: none;
+    }
+
+    .ingredient-item {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 8px 0;
+      border-bottom: 1px solid #f0f0f0;
+    }
+
+    .ingredient-info {
+      display: flex;
+      align-items: center;
+    }
+
+    .ingredient-rating {
+      width: 24px;
+      height: 24px;
+      border-radius: 50%;
+      background-color: #4CAF50;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: white;
+      font-size: 12px;
+      margin-right: 12px;
+    }
+
+    .rating-better {
+      background-color: #66BB6A;
+    }
+
+    .add-ingredient {
+      width: 32px;
+      height: 32px;
+      border-radius: 50%;
+      background-color: #f0f0f0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #555;
+    }
+
+    .substitutions-button {
+      width: 100%;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      background-color: #f5f5f5;
+      padding: 12px;
+      border-radius: 8px;
+      margin-top: 24px;
+    }
+
+    .subs-left {
+      display: flex;
+      align-items: center;
+    }
+
+    .method-steps {
+      display: flex;
+      flex-direction: column;
+      gap: 24px;
+    }
+
+    .method-step {
+      display: flex;
+    }
+
+    .step-number {
+      width: 32px;
+      height: 32px;
+      border-radius: 50%;
+      background-color: #4CAF50;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: white;
+      font-weight: bold;
+      margin-right: 12px;
+      flex-shrink: 0;
+    }
+
+    .step-text {
+      color: #333;
+    }
+
+    .chef-tip {
+      background-color: #E8F5E9;
+      padding: 16px;
+      border-radius: 12px;
+      margin-top: 32px;
+      display: flex;
+      align-items: flex-start;
+    }
+
+    .tip-icon {
+      width: 32px;
+      height: 32px;
+      border-radius: 50%;
+      background-color: #C8E6C9;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #4CAF50;
+      margin-right: 12px;
+      flex-shrink: 0;
+    }
+
+    .tip-content h3 {
+      font-weight: 500;
+      color: #1B5E20;
+      margin-bottom: 4px;
+    }
+
+    .tip-content p {
+      font-size: 14px;
+      color: #2E7D32;
+    }
+
+    .notes-section {
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+    }
+
+    .note-card {
+      padding: 16px;
+      border-radius: 12px;
+    }
+
+    .note-card h3 {
+      font-weight: 500;
+      margin-bottom: 8px;
+    }
+
+    .green-card {
+      background-color: #E8F5E9;
+    }
+
+    .green-card h3 {
+      color: #1B5E20;
+    }
+
+    .blue-card {
+      background-color: #E3F2FD;
+    }
+
+    .blue-card h3 {
+      color: #0D47A1;
+    }
+
+    .purple-card {
+      background-color: #F3E5F5;
+    }
+
+    .purple-card h3 {
+      color: #6A1B9A;
+    }
+
+    .age-adaptations {
+      list-style-type: none;
+    }
+
+    .age-item {
+      display: flex;
+      margin-bottom: 8px;
+    }
+
+    .age-label {
+      font-weight: 500;
+      min-width: 80px;
+      margin-right: 8px;
+    }
+
+    .rating-summary {
+      background-color: white;
+      border-top: 1px solid #eee;
+      padding: 16px;
+      margin-top: 8px;
+    }
+
+    .rating-card {
+      background-color: #E8F5E9;
+      padding: 16px;
+      border-radius: 12px;
+      display: flex;
+      align-items: flex-start;
+    }
+
+    .rating-icon {
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      background-color: #4CAF50;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: white;
+      font-weight: bold;
+      margin-right: 12px;
+      flex-shrink: 0;
+    }
+
+    .rating-content h3 {
+      font-weight: bold;
+      color: #1B5E20;
+      margin-bottom: 4px;
+    }
+
+    .rating-content p {
+      font-size: 14px;
+      color: #2E7D32;
+    }
+
+    .bottom-actions {
+      position: fixed;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      background-color: white;
+      border-top: 1px solid #eee;
+      padding: 12px;
+      display: flex;
+      gap: 8px;
+      max-width: 480px;
+      margin: 0 auto;
+    }
+
+    .action-button {
+      flex: 1;
+      padding: 12px;
+      border-radius: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 500;
+    }
+
+    .save-button {
+      background-color: #f0f0f0;
+      color: #333;
+    }
+
+    .add-plan-button {
+      background-color: #4CAF50;
+      color: white;
+    }
+
+    .action-icon {
+      margin-right: 8px;
+    }
+  </style>
+</head>
+<body>
+  <!-- Status Bar -->
+  <div class="status-bar"></div>
+
+  <!-- Recipe Hero Image -->
+  <div class="hero-image">
+    <!-- Navigation -->
+    <div class="navigation">
+      <div class="nav-button">
+        <i class="fas fa-arrow-left"></i>
+      </div>
+      <div class="action-buttons">
+        <div class="nav-button">
+          <i class="far fa-heart"></i>
+        </div>
+        <div class="nav-button">
+          <i class="fas fa-share-alt"></i>
+        </div>
+      </div>
+    </div>
+
+    <!-- Rating Badge -->
+    <div class="rating-badge">
+      <i class="fas fa-star" style="margin-right: 4px;"></i>
+      BEST
+    </div>
+  </div>
+
+  <!-- Recipe Info Card -->
+  <div class="recipe-info">
+    <h1 class="recipe-title">Rainbow Veggie Fritters</h1>
+    <p class="recipe-description">A colorful mix of vegetables in crispy fritters that kids will love.</p>
+
+    <!-- Meta Tags -->
+    <div class="meta-tags">
+      <div class="meta-tag">
+        <i class="far fa-clock tag-icon"></i>
+        <span>25 min</span>
+      </div>
+      <div class="meta-tag">
+        <i class="fas fa-users tag-icon"></i>
+        <span>4 servings</span>
+      </div>
+      <div class="dietary-tag tag-green">Gluten-Free</div>
+      <div class="dietary-tag tag-purple">Dairy-Free</div>
+    </div>
+
+    <!-- Servings Adjuster -->
+    <div class="servings-adjuster">
+      <span class="servings-label">Servings</span>
+      <div class="adjuster-controls">
+        <div class="adjuster-button">−</div>
+        <span class="servings-count">4</span>
+        <div class="adjuster-button">+</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Nutritional Information -->
+  <div class="nutrition-section">
+    <div class="section-header">
+      <h2 class="section-title">Nutritional Highlights</h2>
+      <span class="view-all">Full Info</span>
+    </div>
+    <div class="nutrition-grid">
+      <div class="nutrition-item">
+        <div class="nutrition-value">320</div>
+        <div class="nutrition-label">Calories</div>
+      </div>
+      <div class="nutrition-item">
+        <div class="nutrition-value">18g</div>
+        <div class="nutrition-label">Protein</div>
+      </div>
+      <div class="nutrition-item">
+        <div class="nutrition-value">12g</div>
+        <div class="nutrition-label">Fat</div>
+      </div>
+      <div class="nutrition-item">
+        <div class="nutrition-value">32g</div>
+        <div class="nutrition-label">Carbs</div>
+      </div>
+    </div>
+    <div class="key-nutrients">
+      <span style="font-weight: 500;">Key Nutrients:</span> Vitamin A, Vitamin C, Iron, Calcium
+    </div>
+  </div>
+
+  <!-- Tab Navigation -->
+  <div class="tab-navigation">
+    <div class="tab active">Ingredients</div>
+    <div class="tab">Method</div>
+    <div class="tab">Notes</div>
+  </div>
+
+  <!-- Tab Content - Ingredients -->
+  <div class="tab-content">
+    <div class="ingredients-header">
+      <h2 class="section-title">Ingredients</h2>
+      <div class="add-all-button">
+        <i class="fas fa-shopping-cart" style="margin-right: 4px;"></i>
+        Add All
+      </div>
+    </div>
+
+    <!-- Fritters Ingredients -->
+    <div class="ingredient-group">
+      <h3 class="group-title">Fritters</h3>
+      <ul class="ingredient-list">
+        <li class="ingredient-item">
+          <div class="ingredient-info">
+            <div class="ingredient-rating">✓</div>
+            <span>2 medium zucchini, grated</span>
+          </div>
+          <div class="add-ingredient">
+            <i class="fas fa-plus"></i>
+          </div>
+        </li>
+        <li class="ingredient-item">
+          <div class="ingredient-info">
+            <div class="ingredient-rating">✓</div>
+            <span>1 large carrot, grated</span>
+          </div>
+          <div class="add-ingredient">
+            <i class="fas fa-plus"></i>
+          </div>
+        </li>
+        <li class="ingredient-item">
+          <div class="ingredient-info">
+            <div class="ingredient-rating">✓</div>
+            <span>1 medium sweet potato, grated</span>
+          </div>
+          <div class="add-ingredient">
+            <i class="fas fa-plus"></i>
+          </div>
+        </li>
+        <li class="ingredient-item">
+          <div class="ingredient-info">
+            <div class="ingredient-rating">✓</div>
+            <span>3 eggs</span>
+          </div>
+          <div class="add-ingredient">
+            <i class="fas fa-plus"></i>
+          </div>
+        </li>
+        <li class="ingredient-item">
+          <div class="ingredient-info">
+            <div class="ingredient-rating rating-better">✓</div>
+            <span>1/2 cup almond flour</span>
+          </div>
+          <div class="add-ingredient">
+            <i class="fas fa-plus"></i>
+          </div>
+        </li>
+        <li class="ingredient-item">
+          <div class="ingredient-info">
+            <div class="ingredient-rating">✓</div>
+            <span>1 tsp sea salt</span>
+          </div>
+          <div class="add-ingredient">
+            <i class="fas fa-plus"></i>
+          </div>
+        </li>
+        <li class="ingredient-item">
+          <div class="ingredient-info">
+            <div class="ingredient-rating">✓</div>
+            <span>2 tbsp olive oil</span>
+          </div>
+          <div class="add-ingredient">
+            <i class="fas fa-plus"></i>
+          </div>
+        </li>
+      </ul>
+    </div>
+
+    <!-- Yogurt Dip Ingredients -->
+    <div class="ingredient-group">
+      <h3 class="group-title">Yogurt Dip (Optional)</h3>
+      <ul class="ingredient-list">
+        <li class="ingredient-item">
+          <div class="ingredient-info">
+            <div class="ingredient-rating">✓</div>
+            <span>1 cup Greek yogurt</span>
+          </div>
+          <div class="add-ingredient">
+            <i class="fas fa-plus"></i>
+          </div>
+        </li>
+        <li class="ingredient-item">
+          <div class="ingredient-info">
+            <div class="ingredient-rating">✓</div>
+            <span>1 tbsp fresh lemon juice</span>
+          </div>
+          <div class="add-ingredient">
+            <i class="fas fa-plus"></i>
+          </div>
+        </li>
+        <li class="ingredient-item">
+          <div class="ingredient-info">
+            <div class="ingredient-rating">✓</div>
+            <span>2 tbsp fresh herbs (dill, mint, or parsley)</span>
+          </div>
+          <div class="add-ingredient">
+            <i class="fas fa-plus"></i>
+          </div>
+        </li>
+      </ul>
+    </div>
+
+    <!-- Substitutions Button -->
+    <div class="substitutions-button">
+      <div class="subs-left">
+        <i class="fas fa-info-circle" style="color: #666; margin-right: 8px;"></i>
+        <span style="font-weight: 500;">Substitutions</span>
+      </div>
+      <i class="fas fa-chevron-down" style="color: #666;"></i>
+    </div>
+  </div>
+
+  <!-- Rating Summary -->
+  <div class="rating-summary">
+    <div class="rating-card">
+      <div class="rating-icon">
+        <i class="fas fa-check"></i>
+      </div>
+      <div class="rating-content">
+        <h3>Real Food Rating: BEST</h3>
+        <p>This recipe uses all whole food ingredients with minimal processing. It's rich in nutrients and free from additives, making it an excellent choice for the whole family.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Bottom Action Buttons -->
+  <div class="bottom-actions">
+    <button class="action-button save-button">
+      <i class="far fa-bookmark action-icon"></i>
+      <span>Save</span>
+    </button>
+    <button class="action-button add-plan-button">
+      <i class="fas fa-plus action-icon"></i>
+      <span>Add to Meal Plan</span>
+    </button>
+  </div>
+</body>
+</html>
