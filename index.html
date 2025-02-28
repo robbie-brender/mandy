@@ -1,729 +1,533 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Real Food Rating - Ingredient Product Dropdown</title>
-  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
-  <style>
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
-    }
-
-    body {
-      background-color: #f7f7f7;
-      color: #333;
-      max-width: 480px;
-      margin: 0 auto;
-      position: relative;
-      min-height: 100vh;
-      padding-bottom: 70px;
-    }
-
-    .status-bar {
-      height: 24px;
-      background-color: white;
-      width: 100%;
-    }
-
-    header {
-      background-color: white;
-      padding: 16px;
-      box-shadow: 0 2px 4px rgba(0,0,0,0.05);
-    }
-
-    .recipe-title {
-      font-size: 20px;
-      font-weight: bold;
-      margin-bottom: 4px;
-    }
-
-    .page-subtitle {
-      font-size: 14px;
-      color: #666;
-    }
-
-    .filters-section {
-      background-color: white;
-      padding: 16px;
-      border-top: 1px solid #eee;
-      border-bottom: 1px solid #eee;
-    }
-
-    .filters-header {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      margin-bottom: 8px;
-    }
-
-    .section-title {
-      font-weight: bold;
-      color: #333;
-    }
-
-    .edit-button {
-      display: flex;
-      align-items: center;
-      color: #4CAF50;
-      font-size: 14px;
-    }
-
-    .edit-icon {
-      margin-right: 4px;
-    }
-
-    .filter-tags {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 8px;
-    }
-
-    .filter-tag {
-      display: flex;
-      align-items: center;
-      padding: 4px 12px;
-      border-radius: 20px;
-      font-size: 12px;
-      font-weight: 500;
-    }
-
-    .tag-check {
-      margin-left: 4px;
-    }
-
-    .tag-children {
-      background-color: #E3F2FD;
-      color: #0D47A1;
-    }
-
-    .tag-best {
-      background-color: #4CAF50;
-      color: white;
-    }
-
-    .tag-better {
-      background-color: #66BB6A;
-      color: white;
-    }
-
-    .tag-inactive {
-      background-color: #f0f0f0;
-      color: #666;
-    }
-
-    .ingredients-list {
-      padding: 16px;
-    }
-
-    .ingredient-group-title {
-      font-weight: bold;
-      color: #333;
-      margin-bottom: 8px;
-    }
-
-    .ingredient-item {
-      border-bottom: 1px solid #eee;
-      padding: 12px 0;
-    }
-
-    .ingredient-row {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-    }
-
-    .ingredient-info {
-      display: flex;
-      align-items: center;
-    }
-
-    .ingredient-rating {
-      width: 24px;
-      height: 24px;
-      border-radius: 50%;
-      background-color: #4CAF50;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      color: white;
-      font-size: 12px;
-      margin-right: 12px;
-    }
-
-    .rating-better {
-      background-color: #66BB6A;
-    }
-
-    .ingredient-name {
-      font-weight: 500;
-    }
-
-    .highlight {
-      font-weight: 600;
-      background-color: #f5f5f5;
-    }
-
-    .ingredient-actions {
-      display: flex;
-      align-items: center;
-    }
-
-    .add-button {
-      width: 32px;
-      height: 32px;
-      border-radius: 50%;
-      background-color: #f0f0f0;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      color: #666;
-      margin-right: 8px;
-    }
-
-    .dropdown-button {
-      width: 32px;
-      height: 32px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      color: #666;
-    }
-
-    .dropdown-open {
-      transform: rotate(180deg);
-    }
-
-    .product-dropdown {
-      background-color: #f5f5f5;
-      border-radius: 12px;
-      padding: 8px 12px;
-      margin-top: 8px;
-    }
-
-    .dropdown-header {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      margin-bottom: 8px;
-    }
-
-    .dropdown-title {
-      font-size: 14px;
-      font-weight: 500;
-      color: #444;
-    }
-
-    .filter-info {
-      display: flex;
-      align-items: center;
-      font-size: 12px;
-      color: #4CAF50;
-    }
-
-    .info-icon {
-      margin-right: 4px;
-    }
-
-    .product-card {
-      background-color: white;
-      border-radius: 12px;
-      padding: 12px;
-      margin-bottom: 8px;
-      box-shadow: 0 1px 3px rgba(0,0,0,0.1);
-    }
-
-    .product-card.highlighted {
-      border: 1px solid #C8E6C9;
-    }
-
-    .product-row {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-    }
-
-    .product-info {
-      display: flex;
-      align-items: center;
-    }
-
-    .product-image {
-      width: 48px;
-      height: 48px;
-      background-color: #f0f0f0;
-      border-radius: 8px;
-      margin-right: 12px;
-    }
-
-    .product-details {
-      display: flex;
-      flex-direction: column;
-    }
-
-    .product-name-row {
-      display: flex;
-      align-items: center;
-    }
-
-    .product-name {
-      font-weight: 500;
-      margin-right: 8px;
-    }
-
-    .rating-badge {
-      display: flex;
-      align-items: center;
-      padding: 2px 8px;
-      border-radius: 4px;
-      font-size: 10px;
-      font-weight: bold;
-      color: white;
-    }
-
-    .badge-best {
-      background-color: #4CAF50;
-    }
-
-    .badge-better {
-      background-color: #66BB6A;
-    }
-
-    .badge-okay {
-      background-color: #FFC107;
-    }
-
-    .product-size {
-      font-size: 12px;
-      color: #666;
-      margin-top: 4px;
-    }
-
-    .special-tag {
-      display: flex;
-      align-items: center;
-      font-size: 12px;
-      color: #4CAF50;
-      font-weight: 500;
-      margin-top: 4px;
-    }
-
-    .tag-icon {
-      margin-right: 4px;
-    }
-
-    .product-add {
-      width: 32px;
-      height: 32px;
-      border-radius: 50%;
-      background-color: #E8F5E9;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      color: #4CAF50;
-    }
-
-    .product-tags {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 4px;
-      margin-top: 8px;
-    }
-
-    .product-tag {
-      padding: 2px 8px;
-      border-radius: 20px;
-      font-size: 12px;
-    }
-
-    .tag-green {
-      background-color: #E8F5E9;
-      color: #1B5E20;
-    }
-
-    .tag-blue {
-      background-color: #E3F2FD;
-      color: #0D47A1;
-    }
-
-    .tag-purple {
-      background-color: #F3E5F5;
-      color: #6A1B9A;
-    }
-
-    .nutritional-note {
-      background-color: #E8F5E9;
-      border-radius: 8px;
-      padding: 8px;
-      margin-top: 12px;
-      display: flex;
-      align-items: flex-start;
-    }
-
-    .note-icon {
-      margin-right: 8px;
-      color: #4CAF50;
-      margin-top: 2px;
-    }
-
-    .note-text {
-      font-size: 12px;
-      color: #333;
-    }
-
-    .caution-note {
-      background-color: #FFF8E1;
-      border-radius: 8px;
-      padding: 8px;
-      margin-top: 12px;
-      display: flex;
-      align-items: flex-start;
-    }
-
-    .caution-icon {
-      margin-right: 8px;
-      color: #FFC107;
-      margin-top: 2px;
-    }
-
-    .more-button {
-      width: 100%;
-      padding: 12px 0;
-      text-align: center;
-      color: #4CAF50;
-      font-size: 14px;
-      font-weight: 500;
-      margin-top: 8px;
-    }
-
-    .bottom-actions {
-      position: fixed;
-      bottom: 0;
-      left: 0;
-      right: 0;
-      background-color: white;
-      border-top: 1px solid #eee;
-      padding: 12px;
-      display: flex;
-      gap: 8px;
-      max-width: 480px;
-      margin: 0 auto;
-    }
-
-    .action-button {
-      flex: 1;
-      padding: 12px;
-      border-radius: 12px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-weight: 500;
-    }
-
-    .filter-button {
-      background-color: #f0f0f0;
-      color: #333;
-    }
-
-    .cart-button {
-      background-color: #4CAF50;
-      color: white;
-    }
-
-    .action-icon {
-      margin-right: 8px;
-    }
-  </style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Real Food Rating - Shopping Landing Page</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: Arial, sans-serif;
+        }
+
+        body {
+            background-color: #F5F5F5;
+            color: #333;
+            max-width: 500px;
+            margin: 0 auto;
+            position: relative;
+            min-height: 100vh;
+            padding-bottom: 70px;
+        }
+
+        .header {
+            background-color: #4CAF50;
+            color: white;
+            padding: 15px 0;
+            text-align: center;
+            height: 60px;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .search-bar {
+            margin: 15px 20px;
+            position: relative;
+        }
+
+        .search-bar input {
+            width: 100%;
+            padding: 12px 40px;
+            border-radius: 20px;
+            border: 1px solid #DDDDDD;
+            font-size: 14px;
+            outline: none;
+        }
+
+        .search-icon {
+            position: absolute;
+            left: 15px;
+            top: 12px;
+            color: #999999;
+        }
+
+        .quick-access {
+            display: flex;
+            justify-content: space-between;
+            background-color: white;
+            padding: 15px 20px;
+            margin-bottom: 10px;
+        }
+
+        .quick-tab {
+            width: 75px;
+            height: 60px;
+            border-radius: 10px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+        }
+
+        .tab-specials {
+            background-color: #FFF8E1;
+            border: 1.5px solid #FFB300;
+        }
+
+        .tab-lists {
+            background-color: #E8F5E9;
+            border: 1.5px solid #4CAF50;
+        }
+
+        .tab-favorites {
+            background-color: #FFEBEE;
+            border: 1.5px solid #F44336;
+        }
+
+        .tab-scan {
+            background-color: #E0F7FA;
+            border: 1.5px solid #00BCD4;
+        }
+
+        .tab-icon {
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 5px;
+        }
+
+        .specials-icon {
+            background-color: #FFB300;
+            color: white;
+        }
+
+        .lists-icon {
+            background-color: #4CAF50;
+            color: white;
+        }
+
+        .favorites-icon {
+            background-color: #F44336;
+            color: white;
+        }
+
+        .scan-icon {
+            background-color: #00BCD4;
+            color: white;
+        }
+
+        .tab-label {
+            font-size: 12px;
+        }
+
+        .specials-label {
+            color: #FFB300;
+        }
+
+        .lists-label {
+            color: #4CAF50;
+        }
+
+        .favorites-label {
+            color: #F44336;
+        }
+
+        .scan-label {
+            color: #00BCD4;
+        }
+
+        .section-header {
+            background-color: white;
+            padding: 15px 20px;
+            font-weight: bold;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .section-title {
+            font-size: 16px;
+            color: #333;
+        }
+
+        .see-all {
+            font-size: 14px;
+            color: #4CAF50;
+            text-decoration: none;
+        }
+
+        .store-section {
+            background-color: white;
+            padding: 0 20px 20px;
+            display: flex;
+            justify-content: space-around;
+        }
+
+        .store-icon {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .store-circle {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 5px;
+            font-weight: bold;
+            color: white;
+        }
+
+        .woolworths {
+            background-color: #64B42D;
+        }
+
+        .coles {
+            background-color: #EF1C2E;
+        }
+
+        .aldi {
+            background-color: #0C5DA5;
+        }
+
+        .other-store {
+            background-color: #9E9E9E;
+        }
+
+        .quick-filters {
+            background-color: white;
+            padding: 0 20px 15px;
+            display: flex;
+            overflow-x: auto;
+            margin-bottom: 10px;
+        }
+
+        .filter-pill {
+            padding: 8px 20px;
+            border-radius: 15px;
+            margin-right: 10px;
+            font-size: 12px;
+            white-space: nowrap;
+        }
+
+        .best-filter {
+            background-color: #E8F5E9;
+            border: 1.5px solid #4CAF50;
+            color: #4CAF50;
+        }
+
+        .budget-filter {
+            background-color: #E3F2FD;
+            border: 1.5px solid #2196F3;
+            color: #2196F3;
+        }
+
+        .dairy-filter {
+            background-color: #E0F7FA;
+            border: 1.5px solid #00BCD4;
+            color: #00BCD4;
+        }
+
+        .categories-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 10px;
+            padding: 0 20px 20px;
+            background-color: white;
+        }
+
+        .category-card {
+            background-color: white;
+            border-radius: 10px;
+            border: 1px solid #DDDDDD;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 10px 5px;
+            height: 95px;
+        }
+
+        .category-icon {
+            width: 40px;
+            height: 40px;
+            border-radius: 5px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 5px 0 10px;
+            font-size: 20px;
+        }
+
+        .category-name {
+            font-size: 12px;
+            text-align: center;
+            color: #666;
+        }
+
+        .favorites-row {
+            display: flex;
+            overflow-x: auto;
+            padding: 0 20px 20px;
+            background-color: white;
+        }
+
+        .product-card {
+            min-width: 135px;
+            height: 160px;
+            background-color: white;
+            border-radius: 10px;
+            border: 1px solid #DDDDDD;
+            margin-right: 10px;
+            padding: 10px;
+            position: relative;
+        }
+
+        .product-image {
+            width: 100%;
+            height: 85px;
+            background-color: #EEEEEE;
+            border-radius: 5px;
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .product-name {
+            font-weight: bold;
+            font-size: 14px;
+            margin-bottom: 3px;
+        }
+
+        .product-brand {
+            font-size: 12px;
+            color: #666;
+            margin-bottom: 3px;
+        }
+
+        .product-price {
+            font-size: 12px;
+            font-weight: bold;
+            color: #4CAF50;
+        }
+
+        .rating-badge {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            width: 20px;
+            height: 20px;
+            background-color: #4CAF50;
+            color: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 12px;
+            font-weight: bold;
+        }
+
+        .see-more {
+            min-width: 50px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 20px;
+            color: #BDBDBD;
+        }
+
+        .nav-bar {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            max-width: 500px;
+            margin: 0 auto;
+            height: 60px;
+            background-color: white;
+            display: flex;
+            justify-content: space-around;
+            border-top: 1px solid #EEEEEE;
+            z-index: 100;
+        }
+
+        .nav-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            flex: 1;
+        }
+
+        .nav-icon {
+            margin-bottom: 4px;
+            font-size: 22px;
+            color: #999;
+        }
+
+        .nav-label {
+            font-size: 10px;
+            color: #999;
+        }
+
+        .active .nav-icon, .active .nav-label {
+            color: #4CAF50;
+            font-weight: bold;
+        }
+    </style>
 </head>
 <body>
-  <!-- Status Bar -->
-  <div class="status-bar"></div>
+    <header class="header">
+        <h1>Shopping</h1>
+    </header>
 
-  <!-- Header -->
-  <header>
-    <h1 class="recipe-title">Rainbow Veggie Fritters</h1>
-    <div class="page-subtitle">Ingredients</div>
-  </header>
-
-  <!-- Product Filters -->
-  <div class="filters-section">
-    <div class="filters-header">
-      <h2 class="section-title">Product Filters</h2>
-      <div class="edit-button">
-        <i class="fas fa-filter edit-icon"></i>
-        Edit
-      </div>
-    </div>
-    <div class="filter-tags">
-      <div class="filter-tag tag-children">
-        For Children
-        <i class="fas fa-check tag-check"></i>
-      </div>
-      <div class="filter-tag tag-inactive">
-        Nut-Free
-      </div>
-      <div class="filter-tag tag-best">
-        Best
-        <i class="fas fa-check tag-check"></i>
-      </div>
-      <div class="filter-tag tag-better">
-        Better
-        <i class="fas fa-check tag-check"></i>
-      </div>
-      <div class="filter-tag tag-inactive">
-        Okay
-      </div>
-      <div class="filter-tag tag-inactive">
-        Organic
-      </div>
-    </div>
-  </div>
-
-  <!-- Ingredients List -->
-  <div class="ingredients-list">
-    <h2 class="ingredient-group-title">Fritters</h2>
-
-    <!-- Zucchini -->
-    <div class="ingredient-item">
-      <div class="ingredient-row">
-        <div class="ingredient-info">
-          <div class="ingredient-rating">✓</div>
-          <span>2 medium zucchini, grated</span>
-        </div>
-        <div class="ingredient-actions">
-          <div class="add-button">
-            <i class="fas fa-plus"></i>
-          </div>
-          <div class="dropdown-button">
-            <i class="fas fa-chevron-down"></i>
-          </div>
-        </div>
-      </div>
+    <div class="search-bar">
+        <span class="search-icon">🔍</span>
+        <input type="text" placeholder="Search products...">
     </div>
 
-    <!-- Carrot -->
-    <div class="ingredient-item">
-      <div class="ingredient-row">
-        <div class="ingredient-info">
-          <div class="ingredient-rating">✓</div>
-          <span>1 large carrot, grated</span>
+    <div class="quick-access">
+        <div class="quick-tab tab-specials">
+            <div class="tab-icon specials-icon">%</div>
+            <div class="tab-label specials-label">Specials</div>
         </div>
-        <div class="ingredient-actions">
-          <div class="add-button">
-            <i class="fas fa-plus"></i>
-          </div>
-          <div class="dropdown-button">
-            <i class="fas fa-chevron-down"></i>
-          </div>
+        <div class="quick-tab tab-lists">
+            <div class="tab-icon lists-icon">📋</div>
+            <div class="tab-label lists-label">My Lists</div>
         </div>
-      </div>
+        <div class="quick-tab tab-favorites">
+            <div class="tab-icon favorites-icon">❤️</div>
+            <div class="tab-label favorites-label">Favorites</div>
+        </div>
+        <div class="quick-tab tab-scan">
+            <div class="tab-icon scan-icon">📷</div>
+            <div class="tab-label scan-label">Scan</div>
+        </div>
     </div>
 
-    <!-- Sweet Potato - Expanded -->
-    <div class="ingredient-item" style="background-color: #f5f5f5;">
-      <div class="ingredient-row">
-        <div class="ingredient-info">
-          <div class="ingredient-rating">✓</div>
-          <span class="ingredient-name highlight">1 medium sweet potato, grated</span>
-        </div>
-        <div class="ingredient-actions">
-          <div class="add-button">
-            <i class="fas fa-plus"></i>
-          </div>
-          <div class="dropdown-button dropdown-open">
-            <i class="fas fa-chevron-down"></i>
-          </div>
-        </div>
-      </div>
+    <div class="section-header">
+        <h2 class="section-title">Shop By Store</h2>
+    </div>
 
-      <!-- Dropdown Content -->
-      <div class="product-dropdown">
-        <div class="dropdown-header">
-          <div class="dropdown-title">Recommended Products</div>
-          <div class="filter-info">
-            <i class="fas fa-info-circle info-icon"></i>
-            Based on your filters
-          </div>
+    <div class="store-section">
+        <div class="store-icon">
+            <div class="store-circle woolworths">W</div>
         </div>
-
-        <!-- Product 1 -->
-        <div class="product-card highlighted">
-          <div class="product-row">
-            <div class="product-info">
-              <div class="product-image"></div>
-              <div class="product-details">
-                <div class="product-name-row">
-                  <div class="product-name">Organic Gold Sweet Potato</div>
-                  <div class="rating-badge badge-best">
-                    <i class="fas fa-star" style="margin-right: 2px;"></i>
-                    BEST
-                  </div>
-                </div>
-                <div class="product-size">~300g each</div>
-                <div class="special-tag">
-                  <i class="fas fa-tag tag-icon"></i>
-                  On special: $3.50
-                </div>
-              </div>
-            </div>
-            <div class="product-add">
-              <i class="fas fa-plus"></i>
-            </div>
-          </div>
-          <div class="product-tags">
-            <div class="product-tag tag-green">Organic</div>
-            <div class="product-tag tag-blue">Child-Friendly</div>
-            <div class="product-tag tag-purple">High in Vitamin A</div>
-          </div>
-
-          <!-- Nutritional Note -->
-          <div class="nutritional-note">
-            <i class="fas fa-check-circle note-icon"></i>
-            <p class="note-text">Sweet potatoes have a lower GI than regular potatoes, making them great for stable energy levels in children.</p>
-          </div>
+        <div class="store-icon">
+            <div class="store-circle coles">C</div>
         </div>
+        <div class="store-icon">
+            <div class="store-circle aldi">A</div>
+        </div>
+        <div class="store-icon">
+            <div class="store-circle other-store">+</div>
+        </div>
+    </div>
 
-        <!-- Product 2 -->
+    <div class="section-header">
+        <h2 class="section-title">Quick Filters</h2>
+    </div>
+
+    <div class="quick-filters">
+        <div class="filter-pill best-filter">Best</div>
+        <div class="filter-pill budget-filter">Budget Friendly</div>
+        <div class="filter-pill dairy-filter">Dairy Free</div>
+    </div>
+
+    <div class="section-header">
+        <h2 class="section-title">Categories</h2>
+        <a href="#" class="see-all">See All</a>
+    </div>
+
+    <div class="categories-grid">
+        <div class="category-card">
+            <div class="category-icon" style="background-color: #F8BBD0;">🥛</div>
+            <div class="category-name">Yoghurt</div>
+        </div>
+        <div class="category-card">
+            <div class="category-icon" style="background-color: #FFE0B2;">🍪</div>
+            <div class="category-name">Crackers</div>
+        </div>
+        <div class="category-card">
+            <div class="category-icon" style="background-color: #DCEDC8;">🍼</div>
+            <div class="category-name">Baby Food</div>
+        </div>
+        <div class="category-card">
+            <div class="category-icon" style="background-color: #B3E5FC;">🥛</div>
+            <div class="category-name">Milk</div>
+        </div>
+        <div class="category-card">
+            <div class="category-icon" style="background-color: #FFE0B2;">🍞</div>
+            <div class="category-name">Bread</div>
+        </div>
+        <div class="category-card">
+            <div class="category-icon" style="background-color: #DCEDC8;">🥦</div>
+            <div class="category-name">Vegetables</div>
+        </div>
+        <div class="category-card">
+            <div class="category-icon" style="background-color: #FFCCBC;">🍎</div>
+            <div class="category-name">Fruit</div>
+        </div>
+        <div class="category-card">
+            <div class="category-icon" style="background-color: #EEEEEE;">➕</div>
+            <div class="category-name">More</div>
+        </div>
+    </div>
+
+    <div class="section-header">
+        <h2 class="section-title">My Favorites</h2>
+        <a href="#" class="see-all">See All</a>
+    </div>
+
+    <div class="favorites-row">
         <div class="product-card">
-          <div class="product-row">
-            <div class="product-info">
-              <div class="product-image"></div>
-              <div class="product-details">
-                <div class="product-name-row">
-                  <div class="product-name">Kumara Sweet Potato</div>
-                  <div class="rating-badge badge-better">
-                    <i class="fas fa-check" style="margin-right: 2px;"></i>
-                    BETTER
-                  </div>
-                </div>
-                <div class="product-size">~250g each</div>
-              </div>
-            </div>
-            <div class="product-add">
-              <i class="fas fa-plus"></i>
-            </div>
-          </div>
-          <div class="product-tags">
-            <div class="product-tag tag-blue">Child-Friendly</div>
-            <div class="product-tag tag-purple">Budget-Friendly</div>
-          </div>
+            <div class="product-image">🥛</div>
+            <div class="rating-badge">5</div>
+            <div class="product-name">Greek Yogurt</div>
+            <div class="product-brand">Organic Dairy</div>
+            <div class="product-price">$4.99</div>
         </div>
-
-        <!-- Product 3 -->
         <div class="product-card">
-          <div class="product-row">
-            <div class="product-info">
-              <div class="product-image"></div>
-              <div class="product-details">
-                <div class="product-name-row">
-                  <div class="product-name">Pre-Grated Sweet Potato</div>
-                  <div class="rating-badge badge-okay">
-                    <i class="fas fa-exclamation-triangle" style="margin-right: 2px;"></i>
-                    OKAY
-                  </div>
-                </div>
-                <div class="product-size">250g pack</div>
-              </div>
-            </div>
-            <div class="product-add">
-              <i class="fas fa-plus"></i>
-            </div>
-          </div>
-          <div class="product-tags">
-            <div class="product-tag" style="background-color: #FFF3E0; color: #E65100;">Convenient</div>
-            <div class="product-tag tag-blue">Child-Friendly</div>
-          </div>
-
-          <!-- Caution Note -->
-          <div class="caution-note">
-            <i class="fas fa-exclamation-triangle caution-icon"></i>
-            <p class="note-text">Pre-grated products may contain preservatives to maintain freshness and have lower nutrient levels than freshly grated vegetables.</p>
-          </div>
+            <div class="product-image">🍞</div>
+            <div class="rating-badge">5</div>
+            <div class="product-name">Wholegrain Bread</div>
+            <div class="product-brand">Good Baker Co.</div>
+            <div class="product-price">$5.99</div>
         </div>
-
-        <!-- Show More -->
-        <div class="more-button">
-          See more options (3)
-        </div>
-      </div>
+        <div class="see-more">→</div>
     </div>
 
-    <!-- Eggs -->
-    <div class="ingredient-item">
-      <div class="ingredient-row">
-        <div class="ingredient-info">
-          <div class="ingredient-rating">✓</div>
-          <span>3 eggs</span>
+    <nav class="nav-bar">
+        <div class="nav-item">
+            <div class="nav-icon">🏠</div>
+            <div class="nav-label">Home</div>
         </div>
-        <div class="ingredient-actions">
-          <div class="add-button">
-            <i class="fas fa-plus"></i>
-          </div>
-          <div class="dropdown-button">
-            <i class="fas fa-chevron-down"></i>
-          </div>
+        <div class="nav-item">
+            <div class="nav-icon">📋</div>
+            <div class="nav-label">Recipes</div>
         </div>
-      </div>
-    </div>
-
-    <!-- Almond Flour -->
-    <div class="ingredient-item">
-      <div class="ingredient-row">
-        <div class="ingredient-info">
-          <div class="ingredient-rating rating-better">✓</div>
-          <span>1/2 cup almond flour</span>
+        <div class="nav-item">
+            <div class="nav-icon">📅</div>
+            <div class="nav-label">Meal Plan</div>
         </div>
-        <div class="ingredient-actions">
-          <div class="add-button">
-            <i class="fas fa-plus"></i>
-          </div>
-          <div class="dropdown-button">
-            <i class="fas fa-chevron-down"></i>
-          </div>
-        </div> 
-      </div>
-    </div>
-
-    <!-- Sea Salt -->
-    <div class="ingredient-item">
-      <div class="ingredient-row">
-        <div class="ingredient-info">
-          <div class="ingredient-rating">✓</div>
-          <span>1 tsp sea salt</span>
+        <div class="nav-item">
+            <div class="nav-icon">📷</div>
+            <div class="nav-label">Scan</div>
         </div>
-        <div class="add-button">
-          <i class="fas fa-plus"></i>
+        <div class="nav-item active">
+            <div class="nav-icon">🛒</div>
+            <div class="nav-label">Shop</div>
         </div>
-      </div>
-    </div>
-
-    <!-- Olive Oil -->
-    <div class="ingredient-item">
-      <div class="ingredient-row">
-        <div class="ingredient-info">
-          <div class="ingredient-rating">✓</div>
-          <span>2 tbsp olive oil</span>
-        </div>
-        <div class="add-button">
-          <i class="fas fa-plus"></i>
-        </div>
-      </div>
-    </div>
-  </div>
-
-  <!-- Bottom Action Buttons -->
-  <div class="bottom-actions">
-    <button class="action-button filter-button">
-      <i class="fas fa-filter action-icon"></i>
-      <span>Edit Filters</span>
-    </button>
-    <button class="action-button cart-button">
-      <i class="fas fa-shopping-cart action-icon"></i>
-      <span>Add All to Cart</span>
-    </button>
-  </div>
+    </nav>
 </body>
 </html>
