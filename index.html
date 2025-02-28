@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Real Food Rating - Meal Plan Templates</title>
+  <title>Real Food Rating - Ingredient Product Dropdown</title>
   <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
   <style>
     * {
@@ -35,169 +35,306 @@
       box-shadow: 0 2px 4px rgba(0,0,0,0.05);
     }
 
-    .header-content {
-      display: flex;
-      align-items: center;
-    }
-
-    .back-button {
-      width: 40px;
-      height: 40px;
-      border-radius: 50%;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      margin-right: 8px;
-    }
-
-    .page-title {
+    .recipe-title {
       font-size: 20px;
-      font-weight: bold;
-    }
-
-    .tab-navigation {
-      display: flex;
-      overflow-x: auto;
-      background-color: white;
-      border-top: 1px solid #eee;
-      border-bottom: 1px solid #eee;
-      padding: 8px 16px;
-    }
-
-    .tab {
-      flex-shrink: 0;
-      padding: 8px 16px;
-      background-color: #f0f0f0;
-      color: #666;
-      border-radius: 20px;
-      margin-right: 8px;
-      font-size: 14px;
-      font-weight: 500;
-    }
-
-    .tab.active {
-      background-color: #4CAF50;
-      color: white;
-    }
-
-    .content {
-      padding: 16px;
-    }
-
-    .section-header {
-      display: flex;
-      justify-content: space-between;
-      margin-bottom: 12px;
-    }
-
-    .section-title {
-      font-size: 18px;
-      font-weight: bold;
-      color: #333;
-    }
-
-    .view-all {
-      color: #4CAF50;
-      font-size: 14px;
-      display: flex;
-      align-items: center;
-    }
-
-    .template-list {
-      display: flex;
-      flex-direction: column;
-      gap: 16px;
-    }
-
-    .template-card {
-      background-color: white;
-      border-radius: 12px;
-      overflow: hidden;
-      box-shadow: 0 2px 4px rgba(0,0,0,0.05);
-    }
-
-    .card-header {
-      height: 128px;
-      color: white;
-      padding: 16px;
-      display: flex;
-      align-items: flex-end;
-    }
-
-    .header-info {
-      display: flex;
-      flex-direction: column;
-    }
-
-    .template-name {
-      font-size: 18px;
       font-weight: bold;
       margin-bottom: 4px;
     }
 
-    .template-meta {
-      display: flex;
-      align-items: center;
+    .page-subtitle {
       font-size: 14px;
+      color: #666;
     }
 
-    .meta-icon {
-      margin-right: 4px;
-    }
-
-    .card-content {
+    .filters-section {
+      background-color: white;
       padding: 16px;
+      border-top: 1px solid #eee;
+      border-bottom: 1px solid #eee;
     }
 
-    .author-row {
+    .filters-header {
       display: flex;
       justify-content: space-between;
       align-items: center;
-      margin-bottom: 12px;
+      margin-bottom: 8px;
     }
 
-    .author-info {
+    .section-title {
+      font-weight: bold;
+      color: #333;
+    }
+
+    .edit-button {
+      display: flex;
+      align-items: center;
+      color: #4CAF50;
+      font-size: 14px;
+    }
+
+    .edit-icon {
+      margin-right: 4px;
+    }
+
+    .filter-tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+
+    .filter-tag {
+      display: flex;
+      align-items: center;
+      padding: 4px 12px;
+      border-radius: 20px;
+      font-size: 12px;
+      font-weight: 500;
+    }
+
+    .tag-check {
+      margin-left: 4px;
+    }
+
+    .tag-children {
+      background-color: #E3F2FD;
+      color: #0D47A1;
+    }
+
+    .tag-best {
+      background-color: #4CAF50;
+      color: white;
+    }
+
+    .tag-better {
+      background-color: #66BB6A;
+      color: white;
+    }
+
+    .tag-inactive {
+      background-color: #f0f0f0;
+      color: #666;
+    }
+
+    .ingredients-list {
+      padding: 16px;
+    }
+
+    .ingredient-group-title {
+      font-weight: bold;
+      color: #333;
+      margin-bottom: 8px;
+    }
+
+    .ingredient-item {
+      border-bottom: 1px solid #eee;
+      padding: 12px 0;
+    }
+
+    .ingredient-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .ingredient-info {
       display: flex;
       align-items: center;
     }
 
-    .author-icon {
-      margin-right: 4px;
-      color: #4CAF50;
+    .ingredient-rating {
+      width: 24px;
+      height: 24px;
+      border-radius: 50%;
+      background-color: #4CAF50;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: white;
+      font-size: 12px;
+      margin-right: 12px;
     }
 
-    .author-name {
-      font-size: 14px;
+    .rating-better {
+      background-color: #66BB6A;
+    }
+
+    .ingredient-name {
       font-weight: 500;
     }
 
-    .rating-info {
+    .highlight {
+      font-weight: 600;
+      background-color: #f5f5f5;
+    }
+
+    .ingredient-actions {
+      display: flex;
+      align-items: center;
+    }
+
+    .add-button {
+      width: 32px;
+      height: 32px;
+      border-radius: 50%;
+      background-color: #f0f0f0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #666;
+      margin-right: 8px;
+    }
+
+    .dropdown-button {
+      width: 32px;
+      height: 32px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #666;
+    }
+
+    .dropdown-open {
+      transform: rotate(180deg);
+    }
+
+    .product-dropdown {
+      background-color: #f5f5f5;
+      border-radius: 12px;
+      padding: 8px 12px;
+      margin-top: 8px;
+    }
+
+    .dropdown-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 8px;
+    }
+
+    .dropdown-title {
+      font-size: 14px;
+      font-weight: 500;
+      color: #444;
+    }
+
+    .filter-info {
+      display: flex;
+      align-items: center;
+      font-size: 12px;
+      color: #4CAF50;
+    }
+
+    .info-icon {
+      margin-right: 4px;
+    }
+
+    .product-card {
+      background-color: white;
+      border-radius: 12px;
+      padding: 12px;
+      margin-bottom: 8px;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+    }
+
+    .product-card.highlighted {
+      border: 1px solid #C8E6C9;
+    }
+
+    .product-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .product-info {
+      display: flex;
+      align-items: center;
+    }
+
+    .product-image {
+      width: 48px;
+      height: 48px;
+      background-color: #f0f0f0;
+      border-radius: 8px;
+      margin-right: 12px;
+    }
+
+    .product-details {
+      display: flex;
+      flex-direction: column;
+    }
+
+    .product-name-row {
+      display: flex;
+      align-items: center;
+    }
+
+    .product-name {
+      font-weight: 500;
+      margin-right: 8px;
+    }
+
+    .rating-badge {
+      display: flex;
+      align-items: center;
+      padding: 2px 8px;
+      border-radius: 4px;
+      font-size: 10px;
+      font-weight: bold;
+      color: white;
+    }
+
+    .badge-best {
+      background-color: #4CAF50;
+    }
+
+    .badge-better {
+      background-color: #66BB6A;
+    }
+
+    .badge-okay {
+      background-color: #FFC107;
+    }
+
+    .product-size {
+      font-size: 12px;
+      color: #666;
+      margin-top: 4px;
+    }
+
+    .special-tag {
       display: flex;
       align-items: center;
       font-size: 12px;
       color: #4CAF50;
       font-weight: 500;
+      margin-top: 4px;
     }
 
-    .check-icon {
+    .tag-icon {
       margin-right: 4px;
     }
 
-    .template-description {
-      font-size: 14px;
-      color: #666;
-      margin-bottom: 16px;
+    .product-add {
+      width: 32px;
+      height: 32px;
+      border-radius: 50%;
+      background-color: #E8F5E9;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #4CAF50;
     }
 
-    .template-tags {
+    .product-tags {
       display: flex;
       flex-wrap: wrap;
       gap: 4px;
-      margin-bottom: 16px;
+      margin-top: 8px;
     }
 
-    .template-tag {
-      padding: 4px 8px;
+    .product-tag {
+      padding: 2px 8px;
       border-radius: 20px;
       font-size: 12px;
     }
@@ -217,44 +354,87 @@
       color: #6A1B9A;
     }
 
-    .action-buttons {
+    .nutritional-note {
+      background-color: #E8F5E9;
+      border-radius: 8px;
+      padding: 8px;
+      margin-top: 12px;
+      display: flex;
+      align-items: flex-start;
+    }
+
+    .note-icon {
+      margin-right: 8px;
+      color: #4CAF50;
+      margin-top: 2px;
+    }
+
+    .note-text {
+      font-size: 12px;
+      color: #333;
+    }
+
+    .caution-note {
+      background-color: #FFF8E1;
+      border-radius: 8px;
+      padding: 8px;
+      margin-top: 12px;
+      display: flex;
+      align-items: flex-start;
+    }
+
+    .caution-icon {
+      margin-right: 8px;
+      color: #FFC107;
+      margin-top: 2px;
+    }
+
+    .more-button {
+      width: 100%;
+      padding: 12px 0;
+      text-align: center;
+      color: #4CAF50;
+      font-size: 14px;
+      font-weight: 500;
+      margin-top: 8px;
+    }
+
+    .bottom-actions {
+      position: fixed;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      background-color: white;
+      border-top: 1px solid #eee;
+      padding: 12px;
       display: flex;
       gap: 8px;
+      max-width: 480px;
+      margin: 0 auto;
     }
 
     .action-button {
       flex: 1;
-      padding: 8px 0;
-      text-align: center;
-      border-radius: 8px;
-      font-size: 14px;
+      padding: 12px;
+      border-radius: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
       font-weight: 500;
     }
 
-    .preview-button {
+    .filter-button {
       background-color: #f0f0f0;
-      color: #666;
+      color: #333;
     }
 
-    .use-button {
+    .cart-button {
       background-color: #4CAF50;
       color: white;
     }
 
-    .green-gradient {
-      background: linear-gradient(to right, #4CAF50, #66BB6A);
-    }
-
-    .blue-gradient {
-      background: linear-gradient(to right, #2196F3, #42A5F5);
-    }
-
-    .purple-gradient {
-      background: linear-gradient(to right, #9C27B0, #BA68C8);
-    }
-
-    .orange-gradient {
-      background: linear-gradient(to right, #FF9800, #FFA726);
+    .action-icon {
+      margin-right: 8px;
     }
   </style>
 </head>
@@ -264,189 +444,286 @@
 
   <!-- Header -->
   <header>
-    <div class="header-content">
-      <div class="back-button">
-        <i class="fas fa-arrow-left"></i>
-      </div>
-      <h1 class="page-title">Meal Plan Templates</h1>
-    </div>
+    <h1 class="recipe-title">Rainbow Veggie Fritters</h1>
+    <div class="page-subtitle">Ingredients</div>
   </header>
 
-  <!-- Tab Navigation -->
-  <div class="tab-navigation">
-    <div class="tab active">Featured</div>
-    <div class="tab">Saved</div>
-    <div class="tab">By Age</div>
-    <div class="tab">Dietary</div>
+  <!-- Product Filters -->
+  <div class="filters-section">
+    <div class="filters-header">
+      <h2 class="section-title">Product Filters</h2>
+      <div class="edit-button">
+        <i class="fas fa-filter edit-icon"></i>
+        Edit
+      </div>
+    </div>
+    <div class="filter-tags">
+      <div class="filter-tag tag-children">
+        For Children
+        <i class="fas fa-check tag-check"></i>
+      </div>
+      <div class="filter-tag tag-inactive">
+        Nut-Free
+      </div>
+      <div class="filter-tag tag-best">
+        Best
+        <i class="fas fa-check tag-check"></i>
+      </div>
+      <div class="filter-tag tag-better">
+        Better
+        <i class="fas fa-check tag-check"></i>
+      </div>
+      <div class="filter-tag tag-inactive">
+        Okay
+      </div>
+      <div class="filter-tag tag-inactive">
+        Organic
+      </div>
+    </div>
   </div>
 
-  <!-- Main Content -->
-  <div class="content">
-    <div class="section-header">
-      <h2 class="section-title">Mandy's Recommended Plans</h2>
-    </div>
+  <!-- Ingredients List -->
+  <div class="ingredients-list">
+    <h2 class="ingredient-group-title">Fritters</h2>
 
-    <div class="template-list">
-      <!-- Template 1 -->
-      <div class="template-card">
-        <div class="card-header green-gradient">
-          <div class="header-info">
-            <div class="template-name">Family Favorites</div>
-            <div class="template-meta">
-              <i class="fas fa-calendar meta-icon"></i>
-              <span>7-day plan</span>
-            </div>
-          </div>
+    <!-- Zucchini -->
+    <div class="ingredient-item">
+      <div class="ingredient-row">
+        <div class="ingredient-info">
+          <div class="ingredient-rating">✓</div>
+          <span>2 medium zucchini, grated</span>
         </div>
-        <div class="card-content">
-          <div class="author-row">
-            <div class="author-info">
-              <i class="fas fa-star author-icon"></i>
-              <span class="author-name">By Mandy Sacher</span>
-            </div>
-            <div class="rating-info">
-              <i class="fas fa-check check-icon"></i>
-              <span>85% Best Rated</span>
-            </div>
+        <div class="ingredient-actions">
+          <div class="add-button">
+            <i class="fas fa-plus"></i>
           </div>
-
-          <p class="template-description">
-            A kid-friendly plan with family meals everyone will enjoy. Includes meal prep tips and leftovers strategy.
-          </p>
-
-          <div class="template-tags">
-            <div class="template-tag tag-green">Family-Friendly</div>
-            <div class="template-tag tag-blue">Time-Saving</div>
-            <div class="template-tag tag-purple">Balanced</div>
-          </div>
-
-          <div class="action-buttons">
-            <button class="action-button preview-button">Preview</button>
-            <button class="action-button use-button">Use Plan</button>
-          </div>
-        </div>
-      </div>
-
-      <!-- Template 2 -->
-      <div class="template-card">
-        <div class="card-header blue-gradient">
-          <div class="header-info">
-            <div class="template-name">Toddler Nutrition</div>
-            <div class="template-meta">
-              <i class="fas fa-calendar meta-icon"></i>
-              <span>7-day plan</span>
-            </div>
-          </div>
-        </div>
-        <div class="card-content">
-          <div class="author-row">
-            <div class="author-info">
-              <i class="fas fa-star author-icon"></i>
-              <span class="author-name">By Mandy Sacher</span>
-            </div>
-            <div class="rating-info">
-              <i class="fas fa-check check-icon"></i>
-              <span>95% Best Rated</span>
-            </div>
-          </div>
-
-          <p class="template-description">
-            Perfect for 1-3 year olds. Focuses on brain development, balanced nutrition and introducing new flavors.
-          </p>
-
-          <div class="template-tags">
-            <div class="template-tag tag-blue">Age: 1-3 years</div>
-            <div class="template-tag tag-green">Brain Development</div>
-            <div class="template-tag tag-purple">Immune Support</div>
-          </div>
-
-          <div class="action-buttons">
-            <button class="action-button preview-button">Preview</button>
-            <button class="action-button use-button">Use Plan</button>
-          </div>
-        </div>
-      </div>
-
-      <!-- Template 3 -->
-      <div class="template-card">
-        <div class="card-header purple-gradient">
-          <div class="header-info">
-            <div class="template-name">Fussy Eater Solutions</div>
-            <div class="template-meta">
-              <i class="fas fa-calendar meta-icon"></i>
-              <span>7-day plan</span>
-            </div>
-          </div>
-        </div>
-        <div class="card-content">
-          <div class="author-row">
-            <div class="author-info">
-              <i class="fas fa-star author-icon"></i>
-              <span class="author-name">By Mandy Sacher</span>
-            </div>
-            <div class="rating-info">
-              <i class="fas fa-check check-icon"></i>
-              <span>90% Best Rated</span>
-            </div>
-          </div>
-
-          <p class="template-description">
-            Strategies for picky eaters with gentle introduction of new foods and familiar favorites with nutritional boosts.
-          </p>
-
-          <div class="template-tags">
-            <div class="template-tag tag-purple">Picky Eaters</div>
-            <div class="template-tag tag-blue">All Ages</div>
-            <div class="template-tag tag-green">Nutrient-Dense</div>
-          </div>
-
-          <div class="action-buttons">
-            <button class="action-button preview-button">Preview</button>
-            <button class="action-button use-button">Use Plan</button>
-          </div>
-        </div>
-      </div>
-
-      <!-- Template 4 -->
-      <div class="template-card">
-        <div class="card-header orange-gradient">
-          <div class="header-info">
-            <div class="template-name">Budget-Friendly</div>
-            <div class="template-meta">
-              <i class="fas fa-calendar meta-icon"></i>
-              <span>7-day plan</span>
-            </div>
-          </div>
-        </div>
-        <div class="card-content">
-          <div class="author-row">
-            <div class="author-info">
-              <i class="fas fa-star author-icon"></i>
-              <span class="author-name">By Mandy Sacher</span>
-            </div>
-            <div class="rating-info">
-              <i class="fas fa-check check-icon"></i>
-              <span>80% Best Rated</span>
-            </div>
-          </div>
-
-          <p class="template-description">
-            Nutritious meals that won't break the bank. Includes shopping tips, affordable ingredient swaps, and bulk cooking ideas.
-          </p>
-
-          <div class="template-tags">
-            <div class="template-tag tag-blue">Cost-Effective</div>
-            <div class="template-tag tag-green">Family-Friendly</div>
-            <div class="template-tag tag-purple">Seasonal</div>
-          </div>
-
-          <div class="action-buttons">
-            <button class="action-button preview-button">Preview</button>
-            <button class="action-button use-button">Use Plan</button>
+          <div class="dropdown-button">
+            <i class="fas fa-chevron-down"></i>
           </div>
         </div>
       </div>
     </div>
+
+    <!-- Carrot -->
+    <div class="ingredient-item">
+      <div class="ingredient-row">
+        <div class="ingredient-info">
+          <div class="ingredient-rating">✓</div>
+          <span>1 large carrot, grated</span>
+        </div>
+        <div class="ingredient-actions">
+          <div class="add-button">
+            <i class="fas fa-plus"></i>
+          </div>
+          <div class="dropdown-button">
+            <i class="fas fa-chevron-down"></i>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Sweet Potato - Expanded -->
+    <div class="ingredient-item" style="background-color: #f5f5f5;">
+      <div class="ingredient-row">
+        <div class="ingredient-info">
+          <div class="ingredient-rating">✓</div>
+          <span class="ingredient-name highlight">1 medium sweet potato, grated</span>
+        </div>
+        <div class="ingredient-actions">
+          <div class="add-button">
+            <i class="fas fa-plus"></i>
+          </div>
+          <div class="dropdown-button dropdown-open">
+            <i class="fas fa-chevron-down"></i>
+          </div>
+        </div>
+      </div>
+
+      <!-- Dropdown Content -->
+      <div class="product-dropdown">
+        <div class="dropdown-header">
+          <div class="dropdown-title">Recommended Products</div>
+          <div class="filter-info">
+            <i class="fas fa-info-circle info-icon"></i>
+            Based on your filters
+          </div>
+        </div>
+
+        <!-- Product 1 -->
+        <div class="product-card highlighted">
+          <div class="product-row">
+            <div class="product-info">
+              <div class="product-image"></div>
+              <div class="product-details">
+                <div class="product-name-row">
+                  <div class="product-name">Organic Gold Sweet Potato</div>
+                  <div class="rating-badge badge-best">
+                    <i class="fas fa-star" style="margin-right: 2px;"></i>
+                    BEST
+                  </div>
+                </div>
+                <div class="product-size">~300g each</div>
+                <div class="special-tag">
+                  <i class="fas fa-tag tag-icon"></i>
+                  On special: $3.50
+                </div>
+              </div>
+            </div>
+            <div class="product-add">
+              <i class="fas fa-plus"></i>
+            </div>
+          </div>
+          <div class="product-tags">
+            <div class="product-tag tag-green">Organic</div>
+            <div class="product-tag tag-blue">Child-Friendly</div>
+            <div class="product-tag tag-purple">High in Vitamin A</div>
+          </div>
+
+          <!-- Nutritional Note -->
+          <div class="nutritional-note">
+            <i class="fas fa-check-circle note-icon"></i>
+            <p class="note-text">Sweet potatoes have a lower GI than regular potatoes, making them great for stable energy levels in children.</p>
+          </div>
+        </div>
+
+        <!-- Product 2 -->
+        <div class="product-card">
+          <div class="product-row">
+            <div class="product-info">
+              <div class="product-image"></div>
+              <div class="product-details">
+                <div class="product-name-row">
+                  <div class="product-name">Kumara Sweet Potato</div>
+                  <div class="rating-badge badge-better">
+                    <i class="fas fa-check" style="margin-right: 2px;"></i>
+                    BETTER
+                  </div>
+                </div>
+                <div class="product-size">~250g each</div>
+              </div>
+            </div>
+            <div class="product-add">
+              <i class="fas fa-plus"></i>
+            </div>
+          </div>
+          <div class="product-tags">
+            <div class="product-tag tag-blue">Child-Friendly</div>
+            <div class="product-tag tag-purple">Budget-Friendly</div>
+          </div>
+        </div>
+
+        <!-- Product 3 -->
+        <div class="product-card">
+          <div class="product-row">
+            <div class="product-info">
+              <div class="product-image"></div>
+              <div class="product-details">
+                <div class="product-name-row">
+                  <div class="product-name">Pre-Grated Sweet Potato</div>
+                  <div class="rating-badge badge-okay">
+                    <i class="fas fa-exclamation-triangle" style="margin-right: 2px;"></i>
+                    OKAY
+                  </div>
+                </div>
+                <div class="product-size">250g pack</div>
+              </div>
+            </div>
+            <div class="product-add">
+              <i class="fas fa-plus"></i>
+            </div>
+          </div>
+          <div class="product-tags">
+            <div class="product-tag" style="background-color: #FFF3E0; color: #E65100;">Convenient</div>
+            <div class="product-tag tag-blue">Child-Friendly</div>
+          </div>
+
+          <!-- Caution Note -->
+          <div class="caution-note">
+            <i class="fas fa-exclamation-triangle caution-icon"></i>
+            <p class="note-text">Pre-grated products may contain preservatives to maintain freshness and have lower nutrient levels than freshly grated vegetables.</p>
+          </div>
+        </div>
+
+        <!-- Show More -->
+        <div class="more-button">
+          See more options (3)
+        </div>
+      </div>
+    </div>
+
+    <!-- Eggs -->
+    <div class="ingredient-item">
+      <div class="ingredient-row">
+        <div class="ingredient-info">
+          <div class="ingredient-rating">✓</div>
+          <span>3 eggs</span>
+        </div>
+        <div class="ingredient-actions">
+          <div class="add-button">
+            <i class="fas fa-plus"></i>
+          </div>
+          <div class="dropdown-button">
+            <i class="fas fa-chevron-down"></i>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Almond Flour -->
+    <div class="ingredient-item">
+      <div class="ingredient-row">
+        <div class="ingredient-info">
+          <div class="ingredient-rating rating-better">✓</div>
+          <span>1/2 cup almond flour</span>
+        </div>
+        <div class="ingredient-actions">
+          <div class="add-button">
+            <i class="fas fa-plus"></i>
+          </div>
+          <div class="dropdown-button">
+            <i class="fas fa-chevron-down"></i>
+          </div>
+        </div> 
+      </div>
+    </div>
+
+    <!-- Sea Salt -->
+    <div class="ingredient-item">
+      <div class="ingredient-row">
+        <div class="ingredient-info">
+          <div class="ingredient-rating">✓</div>
+          <span>1 tsp sea salt</span>
+        </div>
+        <div class="add-button">
+          <i class="fas fa-plus"></i>
+        </div>
+      </div>
+    </div>
+
+    <!-- Olive Oil -->
+    <div class="ingredient-item">
+      <div class="ingredient-row">
+        <div class="ingredient-info">
+          <div class="ingredient-rating">✓</div>
+          <span>2 tbsp olive oil</span>
+        </div>
+        <div class="add-button">
+          <i class="fas fa-plus"></i>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Bottom Action Buttons -->
+  <div class="bottom-actions">
+    <button class="action-button filter-button">
+      <i class="fas fa-filter action-icon"></i>
+      <span>Edit Filters</span>
+    </button>
+    <button class="action-button cart-button">
+      <i class="fas fa-shopping-cart action-icon"></i>
+      <span>Add All to Cart</span>
+    </button>
   </div>
 </body>
 </html>
