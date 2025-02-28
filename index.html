@@ -1,76 +1,1058 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Real Food Rating - My Favorites</title>
-    <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            font-family: Arial, sans-serif;
-        }
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Real Food Rating - Meal Plan</title>
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+    }
 
-        body {
-            background-color: #F5F5F5;
-            color: #333;
-            max-width: 500px;
-            margin: 0 auto;
-            position: relative;
-            min-height: 100vh;
-            padding-bottom: 70px;
-        }
+    body {
+      background-color: #f7f7f7;
+      color: #333;
+      max-width: 480px;
+      margin: 0 auto;
+      position: relative;
+      min-height: 100vh;
+      padding-bottom: 70px;
+    }
 
-        .header {
-            background-color: #4CAF50;
-            color: white;
-            padding: 15px 0;
-            text-align: center;
-            height: 60px;
-            position: sticky;
-            top: 0;
-            z-index: 100;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
+    .status-bar {
+      height: 24px;
+      background-color: white;
+      width: 100%;
+    }
 
-        .back-button {
-            position: absolute;
-            left: 15px;
-            top: 50%;
-            transform: translateY(-50%);
-            background: none;
-            border: none;
-            color: white;
-            font-size: 24px;
-            cursor: pointer;
-        }
+    header {
+      background-color: white;
+      padding: 16px;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+    }
 
-        .search-bar {
-            margin: 15px 20px;
-            position: relative;
-        }
+    .header-content {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
 
-        .search-bar input {
-            width: 100%;
-            padding: 12px 40px;
-            border-radius: 20px;
-            border: 1px solid #DDDDDD;
-            font-size: 14px;
-            outline: none;
-        }
+    .page-title {
+      font-size: 20px;
+      font-weight: bold;
+    }
 
-        .search-icon {
-            position: absolute;
-            left: 15px;
-            top: 12px;
-            color: #999999;
-        }
+    .header-actions {
+      display: flex;
+      gap: 12px;
+    }
 
-        .filter-tabs {
-            display: flex;
-            background-color: white;
-            padding: 15px 20px;
-            overflow-
+    .action-button {
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      background-color: #E8F5E9;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #4CAF50;
+    }
+
+    .plan-library {
+      background-color: white;
+      border-top: 1px solid #eee;
+      border-bottom: 1px solid #eee;
+      padding: 16px;
+    }
+
+    .library-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 16px;
+    }
+
+    .library-title {
+      font-weight: bold;
+      color: #333;
+    }
+
+    .filter-button {
+      display: flex;
+      align-items: center;
+      font-size: 14px;
+      font-weight: 500;
+      color: #4CAF50;
+    }
+
+    .filter-icon {
+      margin-right: 4px;
+    }
+
+    .plans-carousel {
+      display: flex;
+      overflow-x: auto;
+      gap: 12px;
+      margin: 0 -16px;
+      padding: 0 16px 12px;
+    }
+
+    .plan-card {
+      flex: 0 0 160px;
+      border-radius: 12px;
+      overflow: hidden;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+    }
+
+    .plan-card.active {
+      box-shadow: 0 0 0 2px #4CAF50;
+    }
+
+    .plan-header {
+      height: 96px;
+      padding: 12px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      color: white;
+    }
+
+    .plan-top {
+      display: flex;
+      justify-content: space-between;
+    }
+
+    .plan-icon {
+      width: 24px;
+      height: 24px;
+      border-radius: 50%;
+      background-color: white;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .active-badge {
+      background-color: #1B5E20;
+      color: white;
+      font-size: 10px;
+      padding: 2px 8px;
+      border-radius: 20px;
+    }
+
+    .plan-name {
+      font-weight: bold;
+    }
+
+    .plan-dates {
+      font-size: 12px;
+      opacity: 0.8;
+    }
+
+    .plan-info {
+      background-color: white;
+      padding: 8px;
+    }
+
+    .plan-progress {
+      display: flex;
+      justify-content: space-between;
+      font-size: 12px;
+      margin-bottom: 4px;
+    }
+
+    .plan-count {
+      color: #666;
+    }
+
+    .plan-percentage {
+      color: #4CAF50;
+      font-weight: 500;
+    }
+
+    .progress-bar {
+      width: 100%;
+      height: 6px;
+      background-color: #f0f0f0;
+      border-radius: 3px;
+    }
+
+    .progress-fill {
+      height: 100%;
+      background-color: #4CAF50;
+      border-radius: 3px;
+    }
+
+    .new-plan-card {
+      flex: 0 0 160px;
+      border-radius: 12px;
+      overflow: hidden;
+      background-color: white;
+      border: 1px dashed #ccc;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .new-plan-content {
+      flex: 1;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 24px 0;
+    }
+
+    .new-plan-icon {
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      background-color: #f0f0f0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #666;
+      margin-bottom: 8px;
+    }
+
+    .new-plan-label {
+      font-size: 14px;
+      font-weight: 500;
+      color: #666;
+    }
+
+    .new-plan-button {
+      background-color: #f0f0f0;
+      color: #666;
+      text-align: center;
+      padding: 8px;
+      font-size: 12px;
+      border-radius: 20px;
+      margin: 0 8px 8px;
+    }
+
+    .browse-button {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 8px;
+      border: 1px solid #eee;
+      border-radius: 8px;
+      color: #666;
+      font-size: 14px;
+      margin-top: 8px;
+    }
+
+    .current-plan {
+      padding: 16px;
+      background-color: white;
+      border-top: 1px solid #eee;
+      border-bottom: 1px solid #eee;
+    }
+
+    .plan-header-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 8px;
+    }
+
+    .plan-title {
+      font-weight: bold;
+      color: #333;
+    }
+
+    .header-buttons {
+      display: flex;
+      gap: 8px;
+    }
+
+    .edit-button {
+      display: flex;
+      align-items: center;
+      color: #4CAF50;
+      font-size: 14px;
+      font-weight: 500;
+    }
+
+    .more-button {
+      width: 32px;
+      height: 32px;
+      border-radius: 50%;
+      background-color: #f0f0f0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #666;
+    }
+
+    .plan-meta {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .plan-date {
+      display: flex;
+      align-items: center;
+      color: #666;
+      font-size: 14px;
+    }
+
+    .date-icon {
+      margin-right: 6px;
+    }
+
+    .shopping-button {
+      display: flex;
+      align-items: center;
+      background-color: #4CAF50;
+      color: white;
+      font-size: 14px;
+      padding: 4px 12px;
+      border-radius: 20px;
+    }
+
+    .cart-icon {
+      margin-right: 4px;
+    }
+
+    .plan-quality {
+      display: flex;
+      justify-content: space-between;
+      padding: 12px 16px;
+      background-color: #E8F5E9;
+      border-bottom: 1px solid #C8E6C9;
+    }
+
+    .quality-metric {
+      display: flex;
+      align-items: center;
+    }
+
+    .metric-icon {
+      width: 32px;
+      height: 32px;
+      border-radius: 50%;
+      background-color: #C8E6C9;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-right: 8px;
+    }
+
+    .green-dot {
+      width: 16px;
+      height: 16px;
+      border-radius: 50%;
+      background-color: #4CAF50;
+    }
+
+    .metric-info {
+      display: flex;
+      flex-direction: column;
+    }
+
+    .metric-label {
+      font-size: 12px;
+      color: #666;
+    }
+
+    .metric-value {
+      font-weight: 500;
+      color: #1B5E20;
+    }
+
+    .day-navigation {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 16px 16px 4px;
+    }
+
+    .nav-arrow {
+      width: 32px;
+      height: 32px;
+      border-radius: 50%;
+      background-color: #f0f0f0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #666;
+    }
+
+    .disabled {
+      opacity: 0.5;
+    }
+
+    .current-day {
+      text-align: center;
+    }
+
+    .day-name {
+      font-size: 18px;
+      font-weight: bold;
+    }
+
+    .day-date {
+      font-size: 12px;
+      color: #666;
+    }
+
+    .meal-slots {
+      padding: 0 16px 16px;
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+    }
+
+    .meal-card {
+      background-color: white;
+      border-radius: 12px;
+      overflow: hidden;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+    }
+
+    .meal-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 8px 16px;
+    }
+
+    .breakfast-header {
+      background-color: #FFF8E1;
+    }
+
+    .breakfast-title {
+      color: #F57F17;
+      font-weight: 500;
+    }
+
+    .breakfast-add {
+      width: 24px;
+      height: 24px;
+      border-radius: 50%;
+      background-color: #FFECB3;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #F57F17;
+    }
+
+    .lunch-header {
+      background-color: #E8F5E9;
+    }
+
+    .lunch-title {
+      color: #1B5E20;
+      font-weight: 500;
+    }
+
+    .lunch-add {
+      width: 24px;
+      height: 24px;
+      border-radius: 50%;
+      background-color: #C8E6C9;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #1B5E20;
+    }
+
+    .dinner-header {
+      background-color: #E3F2FD;
+    }
+
+    .dinner-title {
+      color: #0D47A1;
+      font-weight: 500;
+    }
+
+    .dinner-add {
+      width: 24px;
+      height: 24px;
+      border-radius: 50%;
+      background-color: #BBDEFB;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #0D47A1;
+    }
+
+    .snack-header {
+      background-color: #F3E5F5;
+    }
+
+    .snack-title {
+      color: #6A1B9A;
+      font-weight: 500;
+    }
+
+    .snack-add {
+      width: 24px;
+      height: 24px;
+      border-radius: 50%;
+      background-color: #E1BEE7;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #6A1B9A;
+    }
+
+    .meal-content {
+      padding: 16px;
+    }
+
+    .recipe-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .recipe-info {
+      display: flex;
+      align-items: center;
+    }
+
+    .recipe-image {
+      width: 56px;
+      height: 56px;
+      background-color: #f0f0f0;
+      border-radius: 8px;
+      margin-right: 12px;
+    }
+
+    .recipe-details {
+      display: flex;
+      flex-direction: column;
+    }
+
+    .recipe-name {
+      font-weight: 500;
+      margin-bottom: 4px;
+    }
+
+    .recipe-meta {
+      display: flex;
+      align-items: center;
+      font-size: 12px;
+      color: #666;
+    }
+
+    .meta-separator {
+      width: 4px;
+      height: 4px;
+      border-radius: 50%;
+      background-color: #ccc;
+      margin: 0 8px;
+    }
+
+    .rating-dot {
+      width: 16px;
+      height: 16px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: white;
+      font-size: 10px;
+      margin-right: 4px;
+    }
+
+    .best-rating {
+      background-color: #4CAF50;
+    }
+
+    .better-rating {
+      background-color: #66BB6A;
+    }
+
+    .action-buttons {
+      display: flex;
+      gap: 8px;
+    }
+
+    .recipe-button {
+      width: 32px;
+      height: 32px;
+      border-radius: 50%;
+      background-color: #f0f0f0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #666;
+    }
+
+    .empty-meal {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 32px 0;
+      color: #666;
+    }
+
+    .empty-icon {
+      font-size: 24px;
+      margin-bottom: 8px;
+      color: #ccc;
+    }
+
+    .empty-text {
+      font-size: 14px;
+    }
+
+    .nav-bar {
+      position: fixed;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      height: 64px;
+      background-color: white;
+      box-shadow: 0 -2px 4px rgba(0,0,0,0.05);
+      display: flex;
+      justify-content: space-around;
+      align-items: center;
+      z-index: 10;
+      max-width: 480px;
+      margin: 0 auto;
+    }
+
+    .nav-item {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      color: #999;
+    }
+
+    .nav-item.active {
+      color: #4CAF50;
+    }
+
+    .nav-icon {
+      width: 24px;
+      height: 24px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .nav-item.active .nav-icon {
+      background-color: #4CAF50;
+    }
+
+    .nav-item:not(.active) .nav-icon {
+      border: 2px solid #999;
+    }
+
+    .nav-dot {
+      width: 12px;
+      height: 12px;
+      border-radius: 50%;
+    }
+
+    .nav-item.active .nav-dot {
+      background-color: white;
+    }
+
+    .nav-item:not(.active) .nav-dot {
+      background-color: #999;
+    }
+
+    .nav-label {
+      font-size: 12px;
+      margin-top: 4px;
+      font-weight: 500;
+    }
+
+    .green-gradient {
+      background: linear-gradient(to right, #4CAF50, #66BB6A);
+    }
+
+    .blue-gradient {
+      background: linear-gradient(to right, #2196F3, #42A5F5);
+    }
+
+    .purple-gradient {
+      background: linear-gradient(to right, #9C27B0, #BA68C8);
+    }
+
+    .yellow-gradient {
+      background: linear-gradient(to right, #FFC107, #FFCA28);
+    }
+  </style>
+</head>
+<body>
+  <!-- Status Bar -->
+  <div class="status-bar"></div>
+
+  <!-- Header -->
+  <header>
+    <div class="header-content">
+      <h1 class="page-title">Meal Plan</h1>
+      <div class="header-actions">
+        <div class="action-button">
+          <i class="fas fa-bookmark"></i>
+        </div>
+        <div class="action-button">
+          <i class="fas fa-plus"></i>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <!-- Meal Plan Library -->
+  <div class="plan-library">
+    <div class="library-header">
+      <h2 class="library-title">My Meal Plans</h2>
+      <div class="filter-button">
+        <i class="fas fa-filter filter-icon"></i>
+        Filter
+      </div>
+    </div>
+
+    <!-- Plans Carousel -->
+    <div class="plans-carousel">
+      <!-- Active Plan -->
+      <div class="plan-card active">
+        <div class="plan-header green-gradient">
+          <div class="plan-top">
+            <div class="plan-icon">
+              <i class="fas fa-check" style="color: #4CAF50;"></i>
+            </div>
+            <div class="active-badge">Active</div>
+          </div>
+          <div>
+            <div class="plan-name">Family Weekly</div>
+            <div class="plan-dates">Feb 24 - Mar 2</div>
+          </div>
+        </div>
+        <div class="plan-info">
+          <div class="plan-progress">
+            <div class="plan-count">14/20 meals</div>
+            <div class="plan-percentage">70%</div>
+          </div>
+          <div class="progress-bar">
+            <div class="progress-fill" style="width: 70%;"></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Previous Plan -->
+      <div class="plan-card">
+        <div class="plan-header blue-gradient">
+          <div class="plan-top">
+            <div class="plan-icon">
+              <i class="fas fa-calendar" style="color: #2196F3;"></i>
+            </div>
+            <div></div>
+          </div>
+          <div>
+            <div class="plan-name">Last Week</div>
+            <div class="plan-dates">Feb 17 - Feb 23</div>
+          </div>
+        </div>
+        <div class="plan-info">
+          <div class="plan-progress">
+            <div class="plan-count">18/21 meals</div>
+            <div class="plan-percentage">85%</div>
+          </div>
+          <div class="progress-bar">
+            <div class="progress-fill" style="width: 85%;"></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Saved Plan -->
+      <div class="plan-card">
+        <div class="plan-header purple-gradient">
+          <div class="plan-top">
+            <div class="plan-icon">
+              <i class="fas fa-star" style="color: #9C27B0;"></i>
+            </div>
+            <div></div>
+          </div>
+          <div>
+            <div class="plan-name">School Lunches</div>
+            <div class="plan-dates">Custom Plan</div>
+          </div>
+        </div>
+        <div class="plan-info">
+          <div class="plan-progress" style="justify-content: space-between;">
+            <div class="plan-count">5 days</div>
+            <button style="font-size: 12px; background-color: #E8F5E9; color: #4CAF50; padding: 2px 8px; border-radius: 20px; border: none;">Use</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Template Plan -->
+      <div class="plan-card">
+        <div class="plan-header yellow-gradient">
+          <div class="plan-top">
+            <div class="plan-icon">
+              <i class="fas fa-book" style="color: #FFC107;"></i>
+            </div>
+            <div></div>
+          </div>
+          <div>
+            <div class="plan-name">Toddler Friendly</div>
+            <div class="plan-dates">By Mandy Sacher</div>
+          </div>
+        </div>
+        <div class="plan-info">
+          <div class="plan-progress" style="justify-content: space-between;">
+            <div class="plan-count">7 days</div>
+            <button style="font-size: 12px; background-color: #E8F5E9; color: #4CAF50; padding: 2px 8px; border-radius: 20px; border: none;">Use</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Add New Plan -->
+      <div class="new-plan-card">
+        <div class="new-plan-content">
+          <div style="text-align: center;">
+            <div class="new-plan-icon">
+              <i class="fas fa-plus"></i>
+            </div>
+            <div class="new-plan-label">New Plan</div>
+          </div>
+        </div>
+        <div>
+          <div class="new-plan-button">Create</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Browse Templates -->
+    <button class="browse-button">
+      <i class="fas fa-bookmark" style="margin-right: 8px;"></i>
+      Browse All Templates
+      <i class="fas fa-chevron-right" style="margin-left: 8px;"></i>
+    </button>
+  </div>
+
+  <!-- Current Plan Overview -->
+  <div class="current-plan">
+    <div class="plan-header-row">
+      <h2 class="plan-title">Family Weekly Plan</h2>
+      <div class="header-buttons">
+        <div class="edit-button">
+          <i class="fas fa-edit" style="margin-right: 4px;"></i>
+          Edit
+        </div>
+        <div class="more-button">
+          <i class="fas fa-ellipsis-h"></i>
+        </div>
+      </div>
+    </div>
+    <div class="plan-meta">
+      <div class="plan-date">
+        <i class="fas fa-calendar date-icon"></i>
+        <span>Feb 24 - Mar 2</span>
+      </div>
+      <button class="shopping-button">
+        <i class="fas fa-shopping-cart cart-icon"></i>
+        Shopping List
+      </button>
+    </div>
+  </div>
+
+  <!-- Plan Quality Summary -->
+  <div class="plan-quality">
+    <div class="quality-metric">
+      <div class="metric-icon">
+        <div class="green-dot"></div>
+      </div>
+      <div class="metric-info">
+        <div class="metric-label">Plan Rating</div>
+        <div class="metric-value">85% Best/Better</div>
+      </div>
+    </div>
+    <div class="quality-metric">
+      <div class="metric-icon">
+        <i class="fas fa-sync-alt" style="color: #4CAF50;"></i>
+      </div>
+      <div class="metric-info">
+        <div class="metric-label">Meals Planned</div>
+        <div class="metric-value">14/20</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Day Navigation -->
+  <div class="day-navigation">
+    <div class="nav-arrow disabled">
+      <i class="fas fa-chevron-left"></i>
+    </div>
+    <div class="current-day">
+      <div class="day-name">Today</div>
+      <div class="day-date">Feb 25</div>
+    </div>
+    <div class="nav-arrow">
+      <i class="fas fa-chevron-right"></i>
+    </div>
+  </div>
+
+  <!-- Meal Slots -->
+  <div class="meal-slots">
+    <!-- Breakfast -->
+    <div class="meal-card">
+      <div class="meal-header breakfast-header">
+        <div class="breakfast-title">Breakfast</div>
+        <div class="breakfast-add">
+          <i class="fas fa-plus"></i>
+        </div>
+      </div>
+      <div class="meal-content">
+        <div class="recipe-row">
+          <div class="recipe-info">
+            <div class="recipe-image"></div>
+            <div class="recipe-details">
+              <div class="recipe-name">Berry Oatmeal</div>
+              <div class="recipe-meta">
+                <i class="far fa-clock" style="margin-right: 4px;"></i>
+                <span>10 min</span>
+                <div class="meta-separator"></div>
+                <div class="rating-dot best-rating">✓</div>
+                <span>Best</span>
+              </div>
+            </div>
+          </div>
+          <div class="action-buttons">
+            <div class="recipe-button">
+              <i class="fas fa-edit"></i>
+            </div>
+            <div class="recipe-button">
+              <i class="fas fa-trash"></i>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Lunch -->
+    <div class="meal-card">
+      <div class="meal-header lunch-header">
+        <div class="lunch-title">Lunch</div>
+        <div class="lunch-add">
+          <i class="fas fa-plus"></i>
+        </div>
+      </div>
+      <div class="meal-content">
+        <div class="recipe-row">
+          <div class="recipe-info">
+            <div class="recipe-image"></div>
+            <div class="recipe-details">
+              <div class="recipe-name">Veggie Wraps</div>
+              <div class="recipe-meta">
+                <i class="far fa-clock" style="margin-right: 4px;"></i>
+                <span>15 min</span>
+                <div class="meta-separator"></div>
+                <div class="rating-dot best-rating">✓</div>
+                <span>Best</span>
+              </div>
+            </div>
+          </div>
+          <div class="action-buttons">
+            <div class="recipe-button">
+              <i class="fas fa-edit"></i>
+            </div>
+            <div class="recipe-button">
+              <i class="fas fa-trash"></i>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Dinner -->
+    <div class="meal-card">
+      <div class="meal-header dinner-header">
+        <div class="dinner-title">Dinner</div>
+        <div class="dinner-add">
+          <i class="fas fa-plus"></i>
+        </div>
+      </div>
+      <div class="meal-content">
+        <div class="recipe-row">
+          <div class="recipe-info">
+            <div class="recipe-image"></div>
+            <div class="recipe-details">
+              <div class="recipe-name">Fish & Roasted Vegetables</div>
+              <div class="recipe-meta">
+                <i class="far fa-clock" style="margin-right: 4px;"></i>
+                <span>30 min</span>
+                <div class="meta-separator"></div>
+                <div class="rating-dot better-rating">✓</div>
+                <span>Better</span>
+              </div>
+            </div>
+          </div>
+          <div class="action-buttons">
+            <div class="recipe-button">
+              <i class="fas fa-edit"></i>
+            </div>
+            <div class="recipe-button">
+              <i class="fas fa-trash"></i>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Snacks -->
+    <div class="meal-card">
+      <div class="meal-header snack-header">
+        <div class="snack-title">Snacks</div>
+        <div class="snack-add">
+          <i class="fas fa-plus"></i>
+        </div>
+      </div>
+      <div class="meal-content">
+        <div class="empty-meal">
+          <i class="fas fa-plus empty-icon"></i>
+          <div class="empty-text">Add snacks to your plan</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Bottom Navigation -->
+  <div class="nav-bar">
+    <div class="nav-item">
+      <div class="nav-icon">
+        <div class="nav-dot"></div>
+      </div>
+      <span class="nav-label">Nourish</span>
+    </div>
+    <div class="nav-item">
+      <div class="nav-icon">
+        <div class="nav-dot"></div>
+      </div>
+      <span class="nav-label">Scan</span>
+    </div>
+    <div class="nav-item active">
+      <div class="nav-icon">
+        <div class="nav-dot"></div>
+      </div>
+      <span class="nav-label">Plan</span>
+    </div>
+    <div class="nav-item">
+      <div class="nav-icon">
+        <div class="nav-dot"></div>
+      </div>
+      <span class="nav-label">Shop</span>
+    </div>
+    <div class="nav-item">
+      <div class="nav-icon">
+        <div class="nav-dot"></div>
+      </div>
+      <span class="nav-label">Learn</span>
+    </div>
+  </div>
+</body>
+</html>
