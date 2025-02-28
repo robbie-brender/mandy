@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Real Food Rating - Shopping Landing Page</title>
+    <title>Real Food Rating - My Shopping Lists</title>
     <style>
         * {
             margin: 0;
@@ -31,319 +31,207 @@
             position: sticky;
             top: 0;
             z-index: 100;
+            display: flex;
+            align-items: center;
+            justify-content: center;
         }
 
-        .search-bar {
-            margin: 15px 20px;
-            position: relative;
-        }
-
-        .search-bar input {
-            width: 100%;
-            padding: 12px 40px;
-            border-radius: 20px;
-            border: 1px solid #DDDDDD;
-            font-size: 14px;
-            outline: none;
-        }
-
-        .search-icon {
+        .back-button {
             position: absolute;
             left: 15px;
-            top: 12px;
-            color: #999999;
+            top: 50%;
+            transform: translateY(-50%);
+            background: none;
+            border: none;
+            color: white;
+            font-size: 24px;
+            cursor: pointer;
         }
 
-        .quick-access {
+        .action-bar {
             display: flex;
             justify-content: space-between;
-            background-color: white;
             padding: 15px 20px;
-            margin-bottom: 10px;
         }
 
-        .quick-tab {
-            width: 75px;
-            height: 60px;
-            border-radius: 10px;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            text-align: center;
-        }
-
-        .tab-specials {
-            background-color: #FFF8E1;
-            border: 1.5px solid #FFB300;
-        }
-
-        .tab-lists {
-            background-color: #E8F5E9;
-            border: 1.5px solid #4CAF50;
-        }
-
-        .tab-favorites {
-            background-color: #FFEBEE;
-            border: 1.5px solid #F44336;
-        }
-
-        .tab-scan {
-            background-color: #E0F7FA;
-            border: 1.5px solid #00BCD4;
-        }
-
-        .tab-icon {
-            width: 30px;
-            height: 30px;
-            border-radius: 50%;
+        .sort-dropdown {
             display: flex;
             align-items: center;
-            justify-content: center;
-            margin-bottom: 5px;
+            background-color: white;
+            border: 1px solid #DDDDDD;
+            border-radius: 20px;
+            padding: 10px 15px;
         }
 
-        .specials-icon {
-            background-color: #FFB300;
-            color: white;
+        .sort-label {
+            color: #666;
+            margin-right: 5px;
         }
 
-        .lists-icon {
+        .sort-value {
+            color: #4CAF50;
+            font-weight: bold;
+        }
+
+        .new-button {
             background-color: #4CAF50;
             color: white;
-        }
-
-        .favorites-icon {
-            background-color: #F44336;
-            color: white;
-        }
-
-        .scan-icon {
-            background-color: #00BCD4;
-            color: white;
-        }
-
-        .tab-label {
-            font-size: 12px;
-        }
-
-        .specials-label {
-            color: #FFB300;
-        }
-
-        .lists-label {
-            color: #4CAF50;
-        }
-
-        .favorites-label {
-            color: #F44336;
-        }
-
-        .scan-label {
-            color: #00BCD4;
+            border: none;
+            border-radius: 20px;
+            padding: 10px 20px;
+            font-weight: bold;
+            cursor: pointer;
         }
 
         .section-header {
             background-color: white;
             padding: 15px 20px;
-            font-weight: bold;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-
-        .section-title {
             font-size: 16px;
+            font-weight: bold;
             color: #333;
         }
 
-        .see-all {
-            font-size: 14px;
-            color: #4CAF50;
-            text-decoration: none;
+        .list-container {
+            padding: 10px 20px;
         }
 
-        .store-section {
+        .list-card {
             background-color: white;
-            padding: 0 20px 20px;
-            display: flex;
-            justify-content: space-around;
-        }
-
-        .store-icon {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-        }
-
-        .store-circle {
-            width: 50px;
-            height: 50px;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            margin-bottom: 5px;
-            font-weight: bold;
-            color: white;
-        }
-
-        .woolworths {
-            background-color: #64B42D;
-        }
-
-        .coles {
-            background-color: #EF1C2E;
-        }
-
-        .aldi {
-            background-color: #0C5DA5;
-        }
-
-        .other-store {
-            background-color: #9E9E9E;
-        }
-
-        .quick-filters {
-            background-color: white;
-            padding: 0 20px 15px;
-            display: flex;
-            overflow-x: auto;
+            border-radius: 10px;
             margin-bottom: 10px;
-        }
-
-        .filter-pill {
-            padding: 8px 20px;
-            border-radius: 15px;
-            margin-right: 10px;
-            font-size: 12px;
-            white-space: nowrap;
-        }
-
-        .best-filter {
-            background-color: #E8F5E9;
-            border: 1.5px solid #4CAF50;
-            color: #4CAF50;
-        }
-
-        .budget-filter {
-            background-color: #E3F2FD;
-            border: 1.5px solid #2196F3;
-            color: #2196F3;
-        }
-
-        .dairy-filter {
-            background-color: #E0F7FA;
-            border: 1.5px solid #00BCD4;
-            color: #00BCD4;
-        }
-
-        .categories-grid {
-            display: grid;
-            grid-template-columns: repeat(4, 1fr);
-            gap: 10px;
-            padding: 0 20px 20px;
-            background-color: white;
-        }
-
-        .category-card {
-            background-color: white;
-            border-radius: 10px;
-            border: 1px solid #DDDDDD;
+            padding: 20px;
             display: flex;
-            flex-direction: column;
-            align-items: center;
-            padding: 10px 5px;
-            height: 95px;
-        }
-
-        .category-icon {
-            width: 40px;
-            height: 40px;
-            border-radius: 5px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            margin: 5px 0 10px;
-            font-size: 20px;
-        }
-
-        .category-name {
-            font-size: 12px;
-            text-align: center;
-            color: #666;
-        }
-
-        .favorites-row {
-            display: flex;
-            overflow-x: auto;
-            padding: 0 20px 20px;
-            background-color: white;
-        }
-
-        .product-card {
-            min-width: 135px;
-            height: 160px;
-            background-color: white;
-            border-radius: 10px;
-            border: 1px solid #DDDDDD;
-            margin-right: 10px;
-            padding: 10px;
             position: relative;
         }
 
-        .product-image {
-            width: 100%;
-            height: 85px;
-            background-color: #EEEEEE;
+        .active-list {
+            border: 2px solid #4CAF50;
+        }
+
+        .list-icon {
+            width: 50px;
+            height: 60px;
             border-radius: 5px;
-            margin-bottom: 10px;
+            margin-right: 15px;
             display: flex;
             align-items: center;
             justify-content: center;
+            font-size: 24px;
         }
 
-        .product-name {
-            font-weight: bold;
-            font-size: 14px;
-            margin-bottom: 3px;
-        }
-
-        .product-brand {
-            font-size: 12px;
-            color: #666;
-            margin-bottom: 3px;
-        }
-
-        .product-price {
-            font-size: 12px;
-            font-weight: bold;
+        .list-weekly {
+            background-color: #E8F5E9;
             color: #4CAF50;
         }
 
-        .rating-badge {
-            position: absolute;
-            top: 10px;
-            right: 10px;
-            width: 20px;
-            height: 20px;
+        .list-meal-plan {
+            background-color: #E3F2FD;
+            color: #2196F3;
+        }
+
+        .list-party {
+            background-color: #FFF8E1;
+            color: #FFC107;
+        }
+
+        .list-completed {
+            background-color: #E0F2F1;
+            color: #00897B;
+        }
+
+        .list-pantry {
+            background-color: #F3E5F5;
+            color: #9C27B0;
+        }
+
+        .list-info {
+            flex: 1;
+        }
+
+        .list-name {
+            font-size: 16px;
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
+
+        .list-status {
+            font-size: 14px;
+            margin-bottom: 5px;
+        }
+
+        .status-active {
+            color: #4CAF50;
+        }
+
+        .status-custom {
+            color: #666;
+        }
+
+        .status-completed {
+            color: #00897B;
+        }
+
+        .status-monthly {
+            color: #9C27B0;
+        }
+
+        .list-meta {
+            font-size: 12px;
+            color: #666;
+            margin-bottom: 10px;
+        }
+
+        .progress-bar {
+            height: 10px;
+            background-color: #EEEEEE;
+            border-radius: 5px;
+            overflow: hidden;
+            margin-bottom: 5px;
+            width: 200px;
+        }
+
+        .progress-fill {
+            height: 100%;
+            border-radius: 5px;
+        }
+
+        .progress-weekly {
+            background-color: #4CAF50;
+            width: 70%;
+        }
+
+        .progress-meal {
+            background-color: #2196F3;
+            width: 50%;
+        }
+
+        .progress-party {
+            background-color: #FFC107;
+            width: 25%;
+        }
+
+        .progress-text {
+            font-size: 12px;
+            color: #666;
+            text-align: right;
+        }
+
+        .fab {
+            position: fixed;
+            bottom: 80px;
+            right: 30px;
+            width: 60px;
+            height: 60px;
             background-color: #4CAF50;
             color: white;
             border-radius: 50%;
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 12px;
-            font-weight: bold;
-        }
-
-        .see-more {
-            min-width: 50px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 20px;
-            color: #BDBDBD;
+            font-size: 30px;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+            z-index: 99;
+            cursor: pointer;
         }
 
         .nav-bar {
@@ -388,124 +276,84 @@
 </head>
 <body>
     <header class="header">
-        <h1>Shopping</h1>
+        <button class="back-button">←</button>
+        <h1>My Shopping Lists</h1>
     </header>
 
-    <div class="search-bar">
-        <span class="search-icon">🔍</span>
-        <input type="text" placeholder="Search products...">
+    <div class="action-bar">
+        <div class="sort-dropdown">
+            <span class="sort-label">Sort by:</span>
+            <span class="sort-value">Date ▾</span>
+        </div>
+        <button class="new-button">+ New</button>
     </div>
 
-    <div class="quick-access">
-        <div class="quick-tab tab-specials">
-            <div class="tab-icon specials-icon">%</div>
-            <div class="tab-label specials-label">Specials</div>
-        </div>
-        <div class="quick-tab tab-lists">
-            <div class="tab-icon lists-icon">📋</div>
-            <div class="tab-label lists-label">My Lists</div>
-        </div>
-        <div class="quick-tab tab-favorites">
-            <div class="tab-icon favorites-icon">❤️</div>
-            <div class="tab-label favorites-label">Favorites</div>
-        </div>
-        <div class="quick-tab tab-scan">
-            <div class="tab-icon scan-icon">📷</div>
-            <div class="tab-label scan-label">Scan</div>
-        </div>
-    </div>
+    <div class="section-header">Current Lists</div>
 
-    <div class="section-header">
-        <h2 class="section-title">Shop By Store</h2>
-    </div>
+    <div class="list-container">
+        <div class="list-card active-list">
+            <div class="list-icon list-weekly">📋</div>
+            <div class="list-info">
+                <div class="list-name">Weekly Grocery</div>
+                <div class="list-status status-active">Active</div>
+                <div class="list-meta">23 items • Updated today</div>
+                <div class="progress-bar">
+                    <div class="progress-fill progress-weekly"></div>
+                </div>
+                <div class="progress-text">15/23</div>
+            </div>
+        </div>
 
-    <div class="store-section">
-        <div class="store-icon">
-            <div class="store-circle woolworths">W</div>
+        <div class="list-card">
+            <div class="list-icon list-meal-plan">📅</div>
+            <div class="list-info">
+                <div class="list-name">Meal Plan: Feb 24-Mar 2</div>
+                <div class="list-status status-custom">From Meal Planner</div>
+                <div class="list-meta">19 items • Updated yesterday</div>
+                <div class="progress-bar">
+                    <div class="progress-fill progress-meal"></div>
+                </div>
+                <div class="progress-text">10/19</div>
+            </div>
         </div>
-        <div class="store-icon">
-            <div class="store-circle coles">C</div>
-        </div>
-        <div class="store-icon">
-            <div class="store-circle aldi">A</div>
-        </div>
-        <div class="store-icon">
-            <div class="store-circle other-store">+</div>
-        </div>
-    </div>
 
-    <div class="section-header">
-        <h2 class="section-title">Quick Filters</h2>
-    </div>
-
-    <div class="quick-filters">
-        <div class="filter-pill best-filter">Best</div>
-        <div class="filter-pill budget-filter">Budget Friendly</div>
-        <div class="filter-pill dairy-filter">Dairy Free</div>
-    </div>
-
-    <div class="section-header">
-        <h2 class="section-title">Categories</h2>
-        <a href="#" class="see-all">See All</a>
-    </div>
-
-    <div class="categories-grid">
-        <div class="category-card">
-            <div class="category-icon" style="background-color: #F8BBD0;">🥛</div>
-            <div class="category-name">Yoghurt</div>
-        </div>
-        <div class="category-card">
-            <div class="category-icon" style="background-color: #FFE0B2;">🍪</div>
-            <div class="category-name">Crackers</div>
-        </div>
-        <div class="category-card">
-            <div class="category-icon" style="background-color: #DCEDC8;">🍼</div>
-            <div class="category-name">Baby Food</div>
-        </div>
-        <div class="category-card">
-            <div class="category-icon" style="background-color: #B3E5FC;">🥛</div>
-            <div class="category-name">Milk</div>
-        </div>
-        <div class="category-card">
-            <div class="category-icon" style="background-color: #FFE0B2;">🍞</div>
-            <div class="category-name">Bread</div>
-        </div>
-        <div class="category-card">
-            <div class="category-icon" style="background-color: #DCEDC8;">🥦</div>
-            <div class="category-name">Vegetables</div>
-        </div>
-        <div class="category-card">
-            <div class="category-icon" style="background-color: #FFCCBC;">🍎</div>
-            <div class="category-name">Fruit</div>
-        </div>
-        <div class="category-card">
-            <div class="category-icon" style="background-color: #EEEEEE;">➕</div>
-            <div class="category-name">More</div>
+        <div class="list-card">
+            <div class="list-icon list-party">🎉</div>
+            <div class="list-info">
+                <div class="list-name">Party Shopping</div>
+                <div class="list-status status-custom">Custom List</div>
+                <div class="list-meta">12 items • Updated 2 days ago</div>
+                <div class="progress-bar">
+                    <div class="progress-fill progress-party"></div>
+                </div>
+                <div class="progress-text">3/12</div>
+            </div>
         </div>
     </div>
 
-    <div class="section-header">
-        <h2 class="section-title">My Favorites</h2>
-        <a href="#" class="see-all">See All</a>
+    <div class="section-header">Past Lists</div>
+
+    <div class="list-container">
+        <div class="list-card">
+            <div class="list-icon list-completed">📅</div>
+            <div class="list-info">
+                <div class="list-name">Meal Plan: Feb 17-23</div>
+                <div class="list-status status-completed">Completed</div>
+                <div class="list-meta">21 items • Completed on Feb 23</div>
+            </div>
+        </div>
+
+        <div class="list-card">
+            <div class="list-icon list-pantry">🥫</div>
+            <div class="list-info">
+                <div class="list-name">Pantry Staples</div>
+                <div class="list-status status-monthly">Monthly</div>
+                <div class="list-meta">31 items • Completed on Feb 10</div>
+            </div>
+        </div>
     </div>
 
-    <div class="favorites-row">
-        <div class="product-card">
-            <div class="product-image">🥛</div>
-            <div class="rating-badge">5</div>
-            <div class="product-name">Greek Yogurt</div>
-            <div class="product-brand">Organic Dairy</div>
-            <div class="product-price">$4.99</div>
-        </div>
-        <div class="product-card">
-            <div class="product-image">🍞</div>
-            <div class="rating-badge">5</div>
-            <div class="product-name">Wholegrain Bread</div>
-            <div class="product-brand">Good Baker Co.</div>
-            <div class="product-price">$5.99</div>
-        </div>
-        <div class="see-more">→</div>
-    </div>
+    <div class="fab">+</div>
 
     <nav class="nav-bar">
         <div class="nav-item">
